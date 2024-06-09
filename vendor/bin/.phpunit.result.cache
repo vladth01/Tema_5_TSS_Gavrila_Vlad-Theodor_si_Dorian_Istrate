@@ -1,0 +1,1 @@
+{"version":1,"defects":{"DeleteTest::testDeleteNote":8,"DeleteTest::testDeleteNonExistingNote":7},"times":{"DeleteTest::testDeleteNote":0.011,"DeleteTest::testDeleteNonExistingNote":0,"EditTest::testEditNote":0.002,"InsertTest::testInsertData":0.001}}
