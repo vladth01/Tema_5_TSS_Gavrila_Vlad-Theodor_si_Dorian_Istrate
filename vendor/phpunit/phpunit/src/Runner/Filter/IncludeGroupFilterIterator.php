@@ -16,11 +16,8 @@ use function in_array;
  */
 final class IncludeGroupFilterIterator extends GroupFilterIterator
 {
-    /**
-     * @psalm-param list<int> $groupTests
-     */
-    protected function doAccept(int $id, array $groupTests): bool
+    protected function doAccept(int $id): bool
     {
-        return in_array($id, $groupTests, true);
+        return in_array($id, $this->groupTests, true);
     }
 }

@@ -15,14 +15,14 @@ use function is_array;
 /**
  * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
  */
-final readonly class IsList extends Constraint
+final class IsList extends Constraint
 {
     /**
      * Returns a string representation of the constraint.
      */
     public function toString(): string
     {
-        return 'is a list';
+        return 'is list';
     }
 
     /**
@@ -46,6 +46,6 @@ final readonly class IsList extends Constraint
      */
     protected function failureDescription(mixed $other): string
     {
-        return $this->valueToTypeStringFragment($other) . $this->toString();
+        return 'an array ' . $this->toString();
     }
 }

@@ -11,27 +11,51 @@ namespace PHPUnit\Event\Code;
 
 use const PHP_EOL;
 use PHPUnit\Event\NoPreviousThrowableException;
+use PHPUnit\Framework\Exception;
+use PHPUnit\Util\Filter;
+use PHPUnit\Util\ThrowableToStringMapper;
 
 /**
  * @psalm-immutable
  *
  * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
  */
-final readonly class Throwable
+final class Throwable
 {
     /**
      * @psalm-var class-string
      */
-    private string $className;
-    private string $message;
-    private string $description;
-    private string $stackTrace;
-    private ?Throwable $previous;
+    private readonly string $className;
+    private readonly string $message;
+    private readonly string $description;
+    private readonly string $stackTrace;
+    private readonly ?Throwable $previous;
+
+    /**
+     * @throws Exception
+     * @throws NoPreviousThrowableException
+     */
+    public static function from(\Throwable $t): self
+    {
+        $previous = $t->getPrevious();
+
+        if ($previous !== null) {
+            $previous = self::from($previous);
+        }
+
+        return new self(
+            $t::class,
+            $t->getMessage(),
+            ThrowableToStringMapper::map($t),
+            Filter::getFilteredStacktrace($t),
+            $previous
+        );
+    }
 
     /**
      * @psalm-param class-string $className
      */
-    public function __construct(string $className, string $message, string $description, string $stackTrace, ?self $previous)
+    private function __construct(string $className, string $message, string $description, string $stackTrace, ?self $previous)
     {
         $this->className   = $className;
         $this->message     = $message;

@@ -17,12 +17,12 @@ use Attribute;
  * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
  */
 #[Attribute(Attribute::TARGET_CLASS | Attribute::IS_REPEATABLE)]
-final readonly class UsesFunction
+final class UsesFunction
 {
     /**
      * @psalm-var non-empty-string
      */
-    private string $functionName;
+    private readonly string $functionName;
 
     /**
      * @psalm-param non-empty-string $functionName

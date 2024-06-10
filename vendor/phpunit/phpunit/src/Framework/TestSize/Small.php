@@ -14,7 +14,7 @@ namespace PHPUnit\Framework\TestSize;
  *
  * @psalm-immutable
  */
-final readonly class Small extends Known
+final class Small extends Known
 {
     /**
      * @psalm-assert-if-true Small $this

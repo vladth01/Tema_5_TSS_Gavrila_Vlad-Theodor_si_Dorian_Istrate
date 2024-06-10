@@ -25,20 +25,20 @@ use function sort;
  *
  * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
  */
-final readonly class PHP
+final class PHP
 {
-    private string $version;
-    private int $versionId;
-    private int $majorVersion;
-    private int $minorVersion;
-    private int $releaseVersion;
-    private string $extraVersion;
-    private string $sapi;
+    private readonly string $version;
+    private readonly int $versionId;
+    private readonly int $majorVersion;
+    private readonly int $minorVersion;
+    private readonly int $releaseVersion;
+    private readonly string $extraVersion;
+    private readonly string $sapi;
 
     /**
      * @psalm-var list<string>
      */
-    private array $extensions;
+    private readonly array $extensions;
 
     public function __construct()
     {
@@ -52,7 +52,7 @@ final readonly class PHP
 
         $extensions = array_merge(
             get_loaded_extensions(true),
-            get_loaded_extensions(),
+            get_loaded_extensions()
         );
 
         sort($extensions);

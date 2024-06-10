@@ -17,26 +17,19 @@ use Attribute;
  * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
  */
 #[Attribute(Attribute::TARGET_METHOD | Attribute::IS_REPEATABLE)]
-final readonly class TestWithJson
+final class TestWithJson
 {
     /**
      * @psalm-var non-empty-string
      */
-    private string $json;
-
-    /**
-     * @psalm-var ?non-empty-string
-     */
-    private ?string $name;
+    private readonly string $json;
 
     /**
      * @psalm-param non-empty-string $json
-     * @psalm-param ?non-empty-string $name
      */
-    public function __construct(string $json, ?string $name = null)
+    public function __construct(string $json)
     {
         $this->json = $json;
-        $this->name = $name;
     }
 
     /**
@@ -45,13 +38,5 @@ final readonly class TestWithJson
     public function json(): string
     {
         return $this->json;
-    }
-
-    /**
-     * @psalm-return ?non-empty-string
-     */
-    public function name(): ?string
-    {
-        return $this->name;
     }
 }

@@ -18,12 +18,12 @@ use IteratorAggregate;
  *
  * @template-implements IteratorAggregate<int, Group>
  */
-final readonly class GroupCollection implements IteratorAggregate
+final class GroupCollection implements IteratorAggregate
 {
     /**
      * @psalm-var list<Group>
      */
-    private array $groups;
+    private readonly array $groups;
 
     /**
      * @psalm-param list<Group> $groups

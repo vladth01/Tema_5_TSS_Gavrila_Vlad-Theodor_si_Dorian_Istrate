@@ -14,10 +14,10 @@ use PHPUnit\Framework\ExpectationFailedException;
 /**
  * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
  */
-final readonly class TraversableContainsOnly extends Constraint
+final class TraversableContainsOnly extends Constraint
 {
     private Constraint $constraint;
-    private string $type;
+    private readonly string $type;
 
     /**
      * @throws \PHPUnit\Framework\Exception
@@ -45,7 +45,7 @@ final readonly class TraversableContainsOnly extends Constraint
      *
      * @throws ExpectationFailedException
      */
-    public function evaluate(mixed $other, string $description = '', bool $returnResult = false): bool
+    public function evaluate(mixed $other, string $description = '', bool $returnResult = false): ?bool
     {
         $success = true;
 
@@ -57,11 +57,15 @@ final readonly class TraversableContainsOnly extends Constraint
             }
         }
 
-        if (!$success && !$returnResult) {
+        if ($returnResult) {
+            return $success;
+        }
+
+        if (!$success) {
             $this->fail($other, $description);
         }
 
-        return $success;
+        return null;
     }
 
     /**

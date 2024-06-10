@@ -19,10 +19,10 @@ use PHPUnit\Event\TestSuite\TestSuite;
  *
  * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
  */
-final readonly class ExecutionStarted implements Event
+final class ExecutionStarted implements Event
 {
-    private Telemetry\Info $telemetryInfo;
-    private TestSuite $testSuite;
+    private readonly Telemetry\Info $telemetryInfo;
+    private readonly TestSuite $testSuite;
 
     public function __construct(Telemetry\Info $telemetryInfo, TestSuite $testSuite)
     {
@@ -45,7 +45,7 @@ final readonly class ExecutionStarted implements Event
         return sprintf(
             'Test Runner Execution Started (%d test%s)',
             $this->testSuite->count(),
-            $this->testSuite->count() !== 1 ? 's' : '',
+            $this->testSuite->count() !== 1 ? 's' : ''
         );
     }
 }

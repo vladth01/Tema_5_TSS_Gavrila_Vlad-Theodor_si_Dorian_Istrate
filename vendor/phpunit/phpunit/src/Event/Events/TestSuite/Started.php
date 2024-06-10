@@ -18,10 +18,10 @@ use PHPUnit\Event\Telemetry;
  *
  * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
  */
-final readonly class Started implements Event
+final class Started implements Event
 {
-    private Telemetry\Info $telemetryInfo;
-    private TestSuite $testSuite;
+    private readonly Telemetry\Info $telemetryInfo;
+    private readonly TestSuite $testSuite;
 
     public function __construct(Telemetry\Info $telemetryInfo, TestSuite $testSuite)
     {
@@ -41,11 +41,17 @@ final readonly class Started implements Event
 
     public function asString(): string
     {
+        $name = '';
+
+        if (!empty($this->testSuite->name())) {
+            $name = $this->testSuite->name() . ', ';
+        }
+
         return sprintf(
-            'Test Suite Started (%s, %d test%s)',
-            $this->testSuite->name(),
+            'Test Suite Started (%s%d test%s)',
+            $name,
             $this->testSuite->count(),
-            $this->testSuite->count() !== 1 ? 's' : '',
+            $this->testSuite->count() !== 1 ? 's' : ''
         );
     }
 }

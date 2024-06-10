@@ -19,9 +19,9 @@ use SebastianBergmann\Comparator\ComparisonFailure;
 /**
  * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
  */
-final readonly class JsonMatches extends Constraint
+final class JsonMatches extends Constraint
 {
-    private string $value;
+    private readonly string $value;
 
     public function __construct(string $value)
     {
@@ -35,7 +35,7 @@ final readonly class JsonMatches extends Constraint
     {
         return sprintf(
             'matches JSON string "%s"',
-            $this->value,
+            $this->value
         );
     }
 
@@ -88,7 +88,7 @@ final readonly class JsonMatches extends Constraint
                 json_decode($other),
                 Json::prettify($recodedValue),
                 Json::prettify($recodedOther),
-                'Failed asserting that two json values are equal.',
+                'Failed asserting that two json values are equal.'
             );
         }
 

@@ -10,14 +10,13 @@
 namespace PHPUnit\Framework\Constraint;
 
 use function sprintf;
-use SebastianBergmann\Exporter\Exporter;
 
 /**
- * @internal This class is not covered by the backward compatibility promise for PHPUnit
+ * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
  */
-final readonly class ExceptionCode extends Constraint
+final class ExceptionCode extends Constraint
 {
-    private int|string $expectedCode;
+    private readonly int|string $expectedCode;
 
     public function __construct(int|string $expected)
     {
@@ -26,7 +25,7 @@ final readonly class ExceptionCode extends Constraint
 
     public function toString(): string
     {
-        return 'exception code is ' . $this->expectedCode;
+        return 'exception code is ';
     }
 
     /**
@@ -35,7 +34,7 @@ final readonly class ExceptionCode extends Constraint
      */
     protected function matches(mixed $other): bool
     {
-        return (string) $other === (string) $this->expectedCode;
+        return (string) $other->getCode() === (string) $this->expectedCode;
     }
 
     /**
@@ -46,12 +45,10 @@ final readonly class ExceptionCode extends Constraint
      */
     protected function failureDescription(mixed $other): string
     {
-        $exporter = new Exporter;
-
         return sprintf(
             '%s is equal to expected exception code %s',
-            $exporter->export($other),
-            $exporter->export($this->expectedCode),
+            $this->exporter()->export($other->getCode()),
+            $this->exporter()->export($this->expectedCode)
         );
     }
 }

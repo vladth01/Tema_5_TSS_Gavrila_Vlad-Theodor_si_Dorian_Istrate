@@ -16,9 +16,9 @@ use PHPUnit\TextUI\Configuration\File;
  *
  * @psalm-immutable
  */
-final readonly class Clover
+final class Clover
 {
-    private File $target;
+    private readonly File $target;
 
     public function __construct(File $target)
     {

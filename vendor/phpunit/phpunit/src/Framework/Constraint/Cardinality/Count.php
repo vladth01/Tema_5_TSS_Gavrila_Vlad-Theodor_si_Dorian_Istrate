@@ -24,9 +24,9 @@ use Traversable;
 /**
  * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
  */
-readonly class Count extends Constraint
+class Count extends Constraint
 {
-    private int $expectedCount;
+    private readonly int $expectedCount;
 
     public function __construct(int $expected)
     {
@@ -37,7 +37,7 @@ readonly class Count extends Constraint
     {
         return sprintf(
             'count matches %d',
-            $this->expectedCount,
+            $this->expectedCount
         );
     }
 
@@ -73,7 +73,7 @@ readonly class Count extends Constraint
                     throw new Exception(
                         $e->getMessage(),
                         $e->getCode(),
-                        $e,
+                        $e
                     );
                 }
             }
@@ -120,7 +120,7 @@ readonly class Count extends Constraint
         return sprintf(
             'actual size %d matches expected size %d',
             (int) $this->getCountOf($other),
-            $this->expectedCount,
+            $this->expectedCount
         );
     }
 }

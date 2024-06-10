@@ -16,14 +16,13 @@ use function trim;
 use PHPUnit\Framework\ExpectationFailedException;
 use SebastianBergmann\Comparator\ComparisonFailure;
 use SebastianBergmann\Comparator\Factory as ComparatorFactory;
-use SebastianBergmann\Exporter\Exporter;
 
 /**
  * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
  */
-final readonly class IsEqualIgnoringCase extends Constraint
+final class IsEqualIgnoringCase extends Constraint
 {
-    private mixed $value;
+    private readonly mixed $value;
 
     public function __construct(mixed $value)
     {
@@ -56,7 +55,7 @@ final readonly class IsEqualIgnoringCase extends Constraint
         try {
             $comparator = $comparatorFactory->getComparatorFor(
                 $this->value,
-                $other,
+                $other
             );
 
             $comparator->assertEquals(
@@ -64,7 +63,7 @@ final readonly class IsEqualIgnoringCase extends Constraint
                 $other,
                 0.0,
                 false,
-                true,
+                true
             );
         } catch (ComparisonFailure $f) {
             if ($returnResult) {
@@ -73,7 +72,7 @@ final readonly class IsEqualIgnoringCase extends Constraint
 
             throw new ExpectationFailedException(
                 trim($description . "\n" . $f->getMessage()),
-                $f,
+                $f
             );
         }
 
@@ -92,13 +91,13 @@ final readonly class IsEqualIgnoringCase extends Constraint
 
             return sprintf(
                 "is equal to '%s'",
-                $this->value,
+                $this->value
             );
         }
 
         return sprintf(
             'is equal to %s',
-            (new Exporter)->export($this->value),
+            $this->exporter()->export($this->value)
         );
     }
 }

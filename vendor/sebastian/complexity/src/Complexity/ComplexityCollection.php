@@ -21,12 +21,12 @@ use IteratorAggregate;
 /**
  * @psalm-immutable
  */
-final readonly class ComplexityCollection implements Countable, IteratorAggregate
+final class ComplexityCollection implements Countable, IteratorAggregate
 {
     /**
      * @psalm-var list<Complexity>
      */
-    private array $items;
+    private readonly array $items;
 
     public static function fromList(Complexity ...$items): self
     {

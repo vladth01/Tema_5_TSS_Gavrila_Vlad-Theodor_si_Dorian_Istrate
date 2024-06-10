@@ -19,14 +19,14 @@ use PHPUnit\Event\Telemetry;
  *
  * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
  */
-final readonly class MockObjectForIntersectionOfInterfacesCreated implements Event
+final class MockObjectForIntersectionOfInterfacesCreated implements Event
 {
-    private Telemetry\Info $telemetryInfo;
+    private readonly Telemetry\Info $telemetryInfo;
 
     /**
      * @psalm-var list<class-string>
      */
-    private array $interfaces;
+    private readonly array $interfaces;
 
     /**
      * @psalm-param list<class-string> $interfaces
@@ -54,7 +54,7 @@ final readonly class MockObjectForIntersectionOfInterfacesCreated implements Eve
     {
         return sprintf(
             'Mock Object Created (%s)',
-            implode('&', $this->interfaces),
+            implode('&', $this->interfaces)
         );
     }
 }

@@ -17,17 +17,17 @@ use Attribute;
  * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
  */
 #[Attribute(Attribute::TARGET_METHOD | Attribute::IS_REPEATABLE)]
-final readonly class DependsExternalUsingDeepClone
+final class DependsExternalUsingDeepClone
 {
     /**
      * @psalm-var class-string
      */
-    private string $className;
+    private readonly string $className;
 
     /**
      * @psalm-var non-empty-string
      */
-    private string $methodName;
+    private readonly string $methodName;
 
     /**
      * @psalm-param class-string $className

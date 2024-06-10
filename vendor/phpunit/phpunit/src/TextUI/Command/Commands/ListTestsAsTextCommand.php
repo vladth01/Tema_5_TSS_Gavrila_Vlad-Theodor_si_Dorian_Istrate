@@ -20,9 +20,9 @@ use RecursiveIteratorIterator;
 /**
  * @internal This class is not covered by the backward compatibility promise for PHPUnit
  */
-final readonly class ListTestsAsTextCommand implements Command
+final class ListTestsAsTextCommand implements Command
 {
-    private TestSuite $suite;
+    private readonly TestSuite $suite;
 
     public function __construct(TestSuite $suite)
     {
@@ -40,7 +40,7 @@ final readonly class ListTestsAsTextCommand implements Command
                 $name = sprintf(
                     '%s::%s',
                     $test::class,
-                    str_replace(' with data set ', '', $test->nameWithDataSet()),
+                    str_replace(' with data set ', '', $test->nameWithDataSet())
                 );
             } elseif ($test instanceof PhptTestCase) {
                 $name = $test->getName();
@@ -50,7 +50,7 @@ final readonly class ListTestsAsTextCommand implements Command
 
             $buffer .= sprintf(
                 ' - %s' . PHP_EOL,
-                $name,
+                $name
             );
         }
 

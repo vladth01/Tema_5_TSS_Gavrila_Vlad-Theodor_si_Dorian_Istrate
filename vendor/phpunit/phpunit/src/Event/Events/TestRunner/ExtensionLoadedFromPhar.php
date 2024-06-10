@@ -18,12 +18,12 @@ use PHPUnit\Event\Telemetry;
  *
  * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
  */
-final readonly class ExtensionLoadedFromPhar implements Event
+final class ExtensionLoadedFromPhar implements Event
 {
-    private Telemetry\Info $telemetryInfo;
-    private string $filename;
-    private string $name;
-    private string $version;
+    private readonly Telemetry\Info $telemetryInfo;
+    private readonly string $filename;
+    private readonly string $name;
+    private readonly string $version;
 
     public function __construct(Telemetry\Info $telemetryInfo, string $filename, string $name, string $version)
     {
@@ -58,7 +58,7 @@ final readonly class ExtensionLoadedFromPhar implements Event
         return sprintf(
             'Extension Loaded from PHAR (%s %s)',
             $this->name,
-            $this->version,
+            $this->version
         );
     }
 }

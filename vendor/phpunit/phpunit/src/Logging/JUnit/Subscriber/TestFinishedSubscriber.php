@@ -12,14 +12,16 @@ namespace PHPUnit\Logging\JUnit;
 use PHPUnit\Event\InvalidArgumentException;
 use PHPUnit\Event\Test\Finished;
 use PHPUnit\Event\Test\FinishedSubscriber;
+use PHPUnit\Event\TestData\NoDataSetFromDataProviderException;
 
 /**
  * @internal This class is not covered by the backward compatibility promise for PHPUnit
  */
-final readonly class TestFinishedSubscriber extends Subscriber implements FinishedSubscriber
+final class TestFinishedSubscriber extends Subscriber implements FinishedSubscriber
 {
     /**
      * @throws InvalidArgumentException
+     * @throws NoDataSetFromDataProviderException
      */
     public function notify(Finished $event): void
     {

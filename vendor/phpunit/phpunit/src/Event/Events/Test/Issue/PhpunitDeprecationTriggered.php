@@ -20,19 +20,12 @@ use PHPUnit\Event\Telemetry;
  *
  * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
  */
-final readonly class PhpunitDeprecationTriggered implements Event
+final class PhpunitDeprecationTriggered implements Event
 {
-    private Telemetry\Info $telemetryInfo;
-    private Test $test;
+    private readonly Telemetry\Info $telemetryInfo;
+    private readonly Test $test;
+    private readonly string $message;
 
-    /**
-     * @psalm-var non-empty-string
-     */
-    private string $message;
-
-    /**
-     * @psalm-param non-empty-string $message
-     */
     public function __construct(Telemetry\Info $telemetryInfo, Test $test, string $message)
     {
         $this->telemetryInfo = $telemetryInfo;
@@ -50,9 +43,6 @@ final readonly class PhpunitDeprecationTriggered implements Event
         return $this->test;
     }
 
-    /**
-     * @psalm-return non-empty-string
-     */
     public function message(): string
     {
         return $this->message;
@@ -69,7 +59,7 @@ final readonly class PhpunitDeprecationTriggered implements Event
         return sprintf(
             'Test Triggered PHPUnit Deprecation (%s)%s',
             $this->test->id(),
-            $message,
+            $message
         );
     }
 }

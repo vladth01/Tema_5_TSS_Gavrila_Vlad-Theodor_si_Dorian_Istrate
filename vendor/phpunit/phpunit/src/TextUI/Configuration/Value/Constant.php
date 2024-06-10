@@ -14,10 +14,10 @@ namespace PHPUnit\TextUI\Configuration;
  *
  * @psalm-immutable
  */
-final readonly class Constant
+final class Constant
 {
-    private string $name;
-    private bool|string $value;
+    private readonly string $name;
+    private readonly bool|string $value;
 
     public function __construct(string $name, bool|string $value)
     {
@@ -30,7 +30,7 @@ final readonly class Constant
         return $this->name;
     }
 
-    public function value(): bool|string
+    public function value(): mixed
     {
         return $this->value;
     }

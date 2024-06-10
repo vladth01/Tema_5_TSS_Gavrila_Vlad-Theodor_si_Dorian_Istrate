@@ -20,12 +20,12 @@ use IteratorAggregate;
  *
  * @template-implements IteratorAggregate<int, File>
  */
-final readonly class FileCollection implements Countable, IteratorAggregate
+final class FileCollection implements Countable, IteratorAggregate
 {
     /**
      * @psalm-var list<File>
      */
-    private array $files;
+    private readonly array $files;
 
     /**
      * @psalm-param list<File> $files

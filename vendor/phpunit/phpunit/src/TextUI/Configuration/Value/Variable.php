@@ -14,11 +14,11 @@ namespace PHPUnit\TextUI\Configuration;
  *
  * @psalm-immutable
  */
-final readonly class Variable
+final class Variable
 {
-    private string $name;
-    private mixed $value;
-    private bool $force;
+    private readonly string $name;
+    private readonly mixed $value;
+    private readonly bool $force;
 
     public function __construct(string $name, mixed $value, bool $force)
     {

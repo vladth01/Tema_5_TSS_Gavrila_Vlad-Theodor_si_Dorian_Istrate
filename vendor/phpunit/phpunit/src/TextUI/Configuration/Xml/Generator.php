@@ -14,7 +14,7 @@ use function str_replace;
 /**
  * @internal This class is not covered by the backward compatibility promise for PHPUnit
  */
-final readonly class Generator
+final class Generator
 {
     /**
      * @var string
@@ -37,11 +37,11 @@ final readonly class Generator
         </testsuite>
     </testsuites>
 
-    <source restrictDeprecations="true" restrictNotices="true" restrictWarnings="true">
+    <coverage>
         <include>
-            <directory>{src_directory}</directory>
+            <directory suffix=".php">{src_directory}</directory>
         </include>
-    </source>
+    </coverage>
 </phpunit>
 
 EOT;
@@ -63,7 +63,7 @@ EOT;
                 $srcDirectory,
                 $cacheDirectory,
             ],
-            self::TEMPLATE,
+            self::TEMPLATE
         );
     }
 }

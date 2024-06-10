@@ -18,19 +18,19 @@ use PHPUnit\Event\Telemetry;
  *
  * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
  */
-final readonly class ExtensionBootstrapped implements Event
+final class ExtensionBootstrapped implements Event
 {
-    private Telemetry\Info $telemetryInfo;
+    private readonly Telemetry\Info $telemetryInfo;
 
     /**
      * @psalm-var class-string
      */
-    private string $className;
+    private readonly string $className;
 
     /**
      * @psalm-var array<string, string>
      */
-    private array $parameters;
+    private readonly array $parameters;
 
     /**
      * @psalm-param class-string $className

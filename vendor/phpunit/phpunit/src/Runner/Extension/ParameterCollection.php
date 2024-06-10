@@ -17,9 +17,9 @@ use PHPUnit\Runner\ParameterDoesNotExistException;
  *
  * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
  */
-final readonly class ParameterCollection
+final class ParameterCollection
 {
-    private array $parameters;
+    private readonly array $parameters;
 
     /**
      * @psalm-param array<string, string> $parameters

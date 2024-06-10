@@ -18,12 +18,12 @@ use IteratorAggregate;
  *
  * @psalm-immutable
  */
-final readonly class ExtensionBootstrapCollection implements IteratorAggregate
+final class ExtensionBootstrapCollection implements IteratorAggregate
 {
     /**
      * @psalm-var list<ExtensionBootstrap>
      */
-    private array $extensionBootstraps;
+    private readonly array $extensionBootstraps;
 
     /**
      * @psalm-param list<ExtensionBootstrap> $extensionBootstraps

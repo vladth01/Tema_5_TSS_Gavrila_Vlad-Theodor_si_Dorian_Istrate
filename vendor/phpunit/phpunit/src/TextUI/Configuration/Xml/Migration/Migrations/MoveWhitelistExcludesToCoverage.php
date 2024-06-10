@@ -13,11 +13,12 @@ use function assert;
 use function in_array;
 use DOMDocument;
 use DOMElement;
+use PHPUnit\Util\Xml\SnapshotNodeList;
 
 /**
  * @internal This class is not covered by the backward compatibility promise for PHPUnit
  */
-final readonly class MoveWhitelistExcludesToCoverage implements Migration
+final class MoveWhitelistExcludesToCoverage implements Migration
 {
     /**
      * @throws MigrationException
@@ -46,7 +47,7 @@ final readonly class MoveWhitelistExcludesToCoverage implements Migration
 
         if ($targetExclude === null) {
             $targetExclude = $coverage->appendChild(
-                $document->createElement('exclude'),
+                $document->createElement('exclude')
             );
         }
 

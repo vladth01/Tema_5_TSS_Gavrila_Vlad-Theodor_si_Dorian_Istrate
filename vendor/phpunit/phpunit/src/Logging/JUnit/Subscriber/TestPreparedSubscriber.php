@@ -12,17 +12,19 @@ namespace PHPUnit\Logging\JUnit;
 use PHPUnit\Event\InvalidArgumentException;
 use PHPUnit\Event\Test\Prepared;
 use PHPUnit\Event\Test\PreparedSubscriber;
+use PHPUnit\Event\TestData\NoDataSetFromDataProviderException;
 
 /**
  * @internal This class is not covered by the backward compatibility promise for PHPUnit
  */
-final readonly class TestPreparedSubscriber extends Subscriber implements PreparedSubscriber
+final class TestPreparedSubscriber extends Subscriber implements PreparedSubscriber
 {
     /**
      * @throws InvalidArgumentException
+     * @throws NoDataSetFromDataProviderException
      */
     public function notify(Prepared $event): void
     {
-        $this->logger()->testPrepared();
+        $this->logger()->testPrepared($event);
     }
 }

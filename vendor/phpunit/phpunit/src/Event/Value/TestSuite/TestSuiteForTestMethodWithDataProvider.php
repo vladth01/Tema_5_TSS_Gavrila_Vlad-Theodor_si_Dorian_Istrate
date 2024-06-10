@@ -16,24 +16,18 @@ use PHPUnit\Event\Code\TestCollection;
  *
  * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
  */
-final readonly class TestSuiteForTestMethodWithDataProvider extends TestSuite
+final class TestSuiteForTestMethodWithDataProvider extends TestSuite
 {
     /**
      * @psalm-var class-string
      */
-    private string $className;
+    private readonly string $className;
+    private readonly string $methodName;
+    private readonly string $file;
+    private readonly int $line;
 
     /**
-     * @psalm-var non-empty-string
-     */
-    private string $methodName;
-    private string $file;
-    private int $line;
-
-    /**
-     * @psalm-param non-empty-string $name
-     * @psalm-param class-string $className
-     * @psalm-param non-empty-string $methodName
+     * @psalm-param class-string $name
      */
     public function __construct(string $name, int $size, TestCollection $tests, string $className, string $methodName, string $file, int $line)
     {
@@ -53,9 +47,6 @@ final readonly class TestSuiteForTestMethodWithDataProvider extends TestSuite
         return $this->className;
     }
 
-    /**
-     * @psalm-return non-empty-string
-     */
     public function methodName(): string
     {
         return $this->methodName;

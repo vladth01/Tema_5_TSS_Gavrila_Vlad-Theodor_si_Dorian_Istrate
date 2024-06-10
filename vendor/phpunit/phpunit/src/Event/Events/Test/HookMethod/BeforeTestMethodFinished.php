@@ -20,19 +20,19 @@ use PHPUnit\Event\Telemetry;
  *
  * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
  */
-final readonly class BeforeTestMethodFinished implements Event
+final class BeforeTestMethodFinished implements Event
 {
-    private Telemetry\Info $telemetryInfo;
+    private readonly Telemetry\Info $telemetryInfo;
 
     /**
      * @psalm-var class-string
      */
-    private string $testClassName;
+    private readonly string $testClassName;
 
     /**
      * @psalm-var list<Code\ClassMethod>
      */
-    private array $calledMethods;
+    private readonly array $calledMethods;
 
     /**
      * @psalm-param class-string $testClassName
@@ -73,7 +73,7 @@ final readonly class BeforeTestMethodFinished implements Event
             $buffer .= sprintf(
                 PHP_EOL . '- %s::%s',
                 $calledMethod->className(),
-                $calledMethod->methodName(),
+                $calledMethod->methodName()
             );
         }
 

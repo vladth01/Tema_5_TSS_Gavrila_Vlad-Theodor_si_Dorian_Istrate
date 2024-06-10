@@ -19,12 +19,12 @@ use IteratorAggregate;
  *
  * @psalm-immutable
  */
-final readonly class CodeUnitCollection implements Countable, IteratorAggregate
+final class CodeUnitCollection implements Countable, IteratorAggregate
 {
     /**
      * @psalm-var list<CodeUnit>
      */
-    private array $codeUnits;
+    private readonly array $codeUnits;
 
     public static function fromList(CodeUnit ...$codeUnits): self
     {
@@ -67,8 +67,8 @@ final readonly class CodeUnitCollection implements Countable, IteratorAggregate
         return new self(
             array_merge(
                 $this->asArray(),
-                $other->asArray(),
-            ),
+                $other->asArray()
+            )
         );
     }
 }

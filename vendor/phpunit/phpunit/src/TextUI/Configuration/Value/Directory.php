@@ -14,9 +14,9 @@ namespace PHPUnit\TextUI\Configuration;
  *
  * @psalm-immutable
  */
-final readonly class Directory
+final class Directory
 {
-    private string $path;
+    private readonly string $path;
 
     public function __construct(string $path)
     {

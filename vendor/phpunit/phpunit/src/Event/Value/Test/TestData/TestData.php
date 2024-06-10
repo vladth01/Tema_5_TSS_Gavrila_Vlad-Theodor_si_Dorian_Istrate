@@ -14,9 +14,9 @@ namespace PHPUnit\Event\TestData;
  *
  * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
  */
-abstract readonly class TestData
+abstract class TestData
 {
-    private string $data;
+    private readonly string $data;
 
     protected function __construct(string $data)
     {

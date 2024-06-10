@@ -9,20 +9,15 @@
  */
 namespace PHPUnit\Framework;
 
-use function sprintf;
-
 /**
  * @internal This class is not covered by the backward compatibility promise for PHPUnit
  */
 final class GeneratorNotSupportedException extends InvalidArgumentException
 {
-    public static function fromParameterName(string $parameterName): self
+    public function __construct()
     {
-        return new self(
-            sprintf(
-                'Passing an argument of type Generator for the %s parameter is not supported',
-                $parameterName,
-            ),
+        parent::__construct(
+            'Generator objects are not supported by assertCount() and the Count constraint'
         );
     }
 }

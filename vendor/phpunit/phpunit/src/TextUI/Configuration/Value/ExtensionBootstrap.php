@@ -14,17 +14,17 @@ namespace PHPUnit\TextUI\Configuration;
  *
  * @psalm-immutable
  */
-final readonly class ExtensionBootstrap
+final class ExtensionBootstrap
 {
     /**
      * @psalm-var class-string
      */
-    private string $className;
+    private readonly string $className;
 
     /**
      * @psalm-var array<string,string>
      */
-    private array $parameters;
+    private readonly array $parameters;
 
     /**
      * @psalm-param class-string $className

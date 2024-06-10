@@ -19,7 +19,7 @@ use PHPUnit\TextUI\Configuration\FilterNotConfiguredException;
 /**
  * @internal This class is not covered by the backward compatibility promise for PHPUnit
  */
-final readonly class TestSuiteFilterProcessor
+final class TestSuiteFilterProcessor
 {
     private Factory $filterFactory;
 
@@ -37,7 +37,6 @@ final readonly class TestSuiteFilterProcessor
         if (!$configuration->hasFilter() &&
             !$configuration->hasGroups() &&
             !$configuration->hasExcludeGroups() &&
-            !$configuration->hasExcludeFilter() &&
             !$configuration->hasTestsCovering() &&
             !$configuration->hasTestsUsing()) {
             return;
@@ -45,13 +44,13 @@ final readonly class TestSuiteFilterProcessor
 
         if ($configuration->hasExcludeGroups()) {
             $this->filterFactory->addExcludeGroupFilter(
-                $configuration->excludeGroups(),
+                $configuration->excludeGroups()
             );
         }
 
         if ($configuration->hasGroups()) {
             $this->filterFactory->addIncludeGroupFilter(
-                $configuration->groups(),
+                $configuration->groups()
             );
         }
 
@@ -59,8 +58,8 @@ final readonly class TestSuiteFilterProcessor
             $this->filterFactory->addIncludeGroupFilter(
                 array_map(
                     static fn (string $name): string => '__phpunit_covers_' . $name,
-                    $configuration->testsCovering(),
-                ),
+                    $configuration->testsCovering()
+                )
             );
         }
 
@@ -68,27 +67,21 @@ final readonly class TestSuiteFilterProcessor
             $this->filterFactory->addIncludeGroupFilter(
                 array_map(
                     static fn (string $name): string => '__phpunit_uses_' . $name,
-                    $configuration->testsUsing(),
-                ),
-            );
-        }
-
-        if ($configuration->hasExcludeFilter()) {
-            $this->filterFactory->addExcludeNameFilter(
-                $configuration->excludeFilter(),
+                    $configuration->testsUsing()
+                )
             );
         }
 
         if ($configuration->hasFilter()) {
-            $this->filterFactory->addIncludeNameFilter(
-                $configuration->filter(),
+            $this->filterFactory->addNameFilter(
+                $configuration->filter()
             );
         }
 
         $suite->injectFilter($this->filterFactory);
 
         Event\Facade::emitter()->testSuiteFiltered(
-            Event\TestSuite\TestSuiteBuilder::from($suite),
+            Event\TestSuite\TestSuite::fromTestSuite($suite)
         );
     }
 }

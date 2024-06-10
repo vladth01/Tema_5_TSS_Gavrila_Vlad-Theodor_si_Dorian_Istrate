@@ -16,9 +16,9 @@ use PHPUnit\TextUI\Configuration\Directory;
  *
  * @psalm-immutable
  */
-final readonly class Xml
+final class Xml
 {
-    private Directory $target;
+    private readonly Directory $target;
 
     public function __construct(Directory $target)
     {

@@ -22,7 +22,7 @@ use function putenv;
 /**
  * @internal This class is not covered by the backward compatibility promise for PHPUnit
  */
-final readonly class PhpHandler
+final class PhpHandler
 {
     public function handle(Php $configuration): void
     {
@@ -52,7 +52,7 @@ final readonly class PhpHandler
                 'include_path',
                 implode(PATH_SEPARATOR, $includePathsAsStrings) .
                 PATH_SEPARATOR .
-                ini_get('include_path'),
+                ini_get('include_path')
             );
         }
     }

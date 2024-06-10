@@ -14,24 +14,15 @@ namespace PHPUnit\Event\Code;
  *
  * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
  */
-abstract readonly class Test
+abstract class Test
 {
-    /**
-     * @psalm-var non-empty-string
-     */
-    private string $file;
+    private readonly string $file;
 
-    /**
-     * @psalm-param non-empty-string $file
-     */
     public function __construct(string $file)
     {
         $this->file = $file;
     }
 
-    /**
-     * @psalm-return non-empty-string
-     */
     public function file(): string
     {
         return $this->file;
@@ -53,13 +44,7 @@ abstract readonly class Test
         return false;
     }
 
-    /**
-     * @psalm-return non-empty-string
-     */
     abstract public function id(): string;
 
-    /**
-     * @psalm-return non-empty-string
-     */
     abstract public function name(): string;
 }

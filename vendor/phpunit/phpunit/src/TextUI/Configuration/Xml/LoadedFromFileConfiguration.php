@@ -11,35 +11,34 @@ namespace PHPUnit\TextUI\XmlConfiguration;
 
 use PHPUnit\TextUI\Configuration\ExtensionBootstrapCollection;
 use PHPUnit\TextUI\Configuration\Php;
-use PHPUnit\TextUI\Configuration\Source;
 use PHPUnit\TextUI\Configuration\TestSuiteCollection;
 use PHPUnit\TextUI\XmlConfiguration\CodeCoverage\CodeCoverage;
 use PHPUnit\TextUI\XmlConfiguration\Logging\Logging;
+use PHPUnit\Util\Xml\ValidationResult;
 
 /**
  * @internal This class is not covered by the backward compatibility promise for PHPUnit
  *
  * @psalm-immutable
  */
-final readonly class LoadedFromFileConfiguration extends Configuration
+final class LoadedFromFileConfiguration extends Configuration
 {
-    private string $filename;
-    private ValidationResult $validationResult;
+    private readonly string $filename;
+    private readonly ValidationResult $validationResult;
 
-    public function __construct(string $filename, ValidationResult $validationResult, ExtensionBootstrapCollection $extensions, Source $source, CodeCoverage $codeCoverage, Groups $groups, Logging $logging, Php $php, PHPUnit $phpunit, TestSuiteCollection $testSuite)
+    public function __construct(string $filename, ValidationResult $validationResult, ExtensionBootstrapCollection $extensions, CodeCoverage $codeCoverage, Groups $groups, Logging $logging, Php $php, PHPUnit $phpunit, TestSuiteCollection $testSuite)
     {
         $this->filename         = $filename;
         $this->validationResult = $validationResult;
 
         parent::__construct(
             $extensions,
-            $source,
             $codeCoverage,
             $groups,
             $logging,
             $php,
             $phpunit,
-            $testSuite,
+            $testSuite
         );
     }
 

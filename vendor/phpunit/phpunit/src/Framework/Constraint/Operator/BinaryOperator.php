@@ -15,18 +15,18 @@ use function count;
 /**
  * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
  */
-abstract readonly class BinaryOperator extends Operator
+abstract class BinaryOperator extends Operator
 {
     /**
      * @psalm-var list<Constraint>
      */
-    private array $constraints;
+    private readonly array $constraints;
 
     protected function __construct(mixed ...$constraints)
     {
         $this->constraints = array_map(
             fn ($constraint): Constraint => $this->checkConstraint($constraint),
-            $constraints,
+            $constraints
         );
     }
 

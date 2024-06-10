@@ -23,12 +23,12 @@ use Throwable;
 /**
  * @internal This class is not covered by the backward compatibility promise for PHPUnit
  */
-final readonly class Filter
+final class Filter
 {
     /**
      * @throws Exception
      */
-    public static function getFilteredStacktrace(Throwable $t, bool $unwrap = true): string
+    public static function getFilteredStacktrace(Throwable $t): string
     {
         $filteredStacktrace = '';
 
@@ -41,7 +41,7 @@ final readonly class Filter
             $eFile  = $t->getFile();
             $eLine  = $t->getLine();
         } else {
-            if ($unwrap && $t->getPrevious()) {
+            if ($t->getPrevious()) {
                 $t = $t->getPrevious();
             }
 
@@ -53,7 +53,7 @@ final readonly class Filter
         if (!self::frameExists($eTrace, $eFile, $eLine)) {
             array_unshift(
                 $eTrace,
-                ['file' => $eFile, 'line' => $eLine],
+                ['file' => $eFile, 'line' => $eLine]
             );
         }
 
@@ -65,7 +65,7 @@ final readonly class Filter
                 $filteredStacktrace .= sprintf(
                     "%s:%s\n",
                     $frame['file'],
-                    $frame['line'] ?? '?',
+                    $frame['line'] ?? '?'
                 );
             }
         }
@@ -73,7 +73,7 @@ final readonly class Filter
         return $filteredStacktrace;
     }
 
-    private static function shouldPrintFrame(array $frame, false|string $prefix, ExcludeList $excludeList): bool
+    private static function shouldPrintFrame(array $frame, string|false $prefix, ExcludeList $excludeList): bool
     {
         if (!isset($frame['file'])) {
             return false;

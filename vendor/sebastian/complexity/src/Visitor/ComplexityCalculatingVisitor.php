@@ -21,7 +21,6 @@ use PhpParser\Node\Stmt\Function_;
 use PhpParser\Node\Stmt\Interface_;
 use PhpParser\Node\Stmt\Trait_;
 use PhpParser\NodeTraverser;
-use PhpParser\NodeVisitor;
 use PhpParser\NodeVisitorAbstract;
 
 final class ComplexityCalculatingVisitor extends NodeVisitorAbstract
@@ -67,7 +66,7 @@ final class ComplexityCalculatingVisitor extends NodeVisitorAbstract
         );
 
         if ($this->shortCircuitTraversal) {
-            return NodeVisitor::DONT_TRAVERSE_CHILDREN;
+            return NodeTraverser::DONT_TRAVERSE_CHILDREN;
         }
 
         return null;

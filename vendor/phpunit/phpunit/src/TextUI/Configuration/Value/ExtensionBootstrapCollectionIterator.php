@@ -10,6 +10,8 @@
 namespace PHPUnit\TextUI\Configuration;
 
 use function count;
+use function iterator_count;
+use Countable;
 use Iterator;
 
 /**
@@ -17,7 +19,7 @@ use Iterator;
  *
  * @template-implements Iterator<int, ExtensionBootstrap>
  */
-final class ExtensionBootstrapCollectionIterator implements Iterator
+final class ExtensionBootstrapCollectionIterator implements Countable, Iterator
 {
     /**
      * @psalm-var list<ExtensionBootstrap>
@@ -28,6 +30,11 @@ final class ExtensionBootstrapCollectionIterator implements Iterator
     public function __construct(ExtensionBootstrapCollection $extensionBootstraps)
     {
         $this->extensionBootstraps = $extensionBootstraps->asArray();
+    }
+
+    public function count(): int
+    {
+        return iterator_count($this);
     }
 
     public function rewind(): void

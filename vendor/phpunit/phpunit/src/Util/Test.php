@@ -16,7 +16,7 @@ use ReflectionMethod;
 /**
  * @internal This class is not covered by the backward compatibility promise for PHPUnit
  */
-final readonly class Test
+final class Test
 {
     public static function isTestMethod(ReflectionMethod $method): bool
     {
@@ -30,7 +30,7 @@ final readonly class Test
 
         $metadata = Registry::parser()->forMethod(
             $method->getDeclaringClass()->getName(),
-            $method->getName(),
+            $method->getName()
         );
 
         return $metadata->isTest()->isNotEmpty();

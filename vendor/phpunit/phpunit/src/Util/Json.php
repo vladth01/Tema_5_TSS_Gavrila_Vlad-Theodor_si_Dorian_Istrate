@@ -23,7 +23,7 @@ use function ksort;
 /**
  * @internal This class is not covered by the backward compatibility promise for PHPUnit
  */
-final readonly class Json
+final class Json
 {
     /**
      * @throws InvalidJsonException

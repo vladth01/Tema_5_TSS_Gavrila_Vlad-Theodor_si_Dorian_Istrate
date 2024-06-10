@@ -14,15 +14,14 @@ use function trim;
 use PHPUnit\Framework\ExpectationFailedException;
 use SebastianBergmann\Comparator\ComparisonFailure;
 use SebastianBergmann\Comparator\Factory as ComparatorFactory;
-use SebastianBergmann\Exporter\Exporter;
 
 /**
  * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
  */
-final readonly class IsEqualWithDelta extends Constraint
+final class IsEqualWithDelta extends Constraint
 {
-    private mixed $value;
-    private float $delta;
+    private readonly mixed $value;
+    private readonly float $delta;
 
     public function __construct(mixed $value, float $delta)
     {
@@ -56,13 +55,13 @@ final readonly class IsEqualWithDelta extends Constraint
         try {
             $comparator = $comparatorFactory->getComparatorFor(
                 $this->value,
-                $other,
+                $other
             );
 
             $comparator->assertEquals(
                 $this->value,
                 $other,
-                $this->delta,
+                $this->delta
             );
         } catch (ComparisonFailure $f) {
             if ($returnResult) {
@@ -71,7 +70,7 @@ final readonly class IsEqualWithDelta extends Constraint
 
             throw new ExpectationFailedException(
                 trim($description . "\n" . $f->getMessage()),
-                $f,
+                $f
             );
         }
 
@@ -84,9 +83,9 @@ final readonly class IsEqualWithDelta extends Constraint
     public function toString(): string
     {
         return sprintf(
-            'is equal to %s with delta <%F>',
-            (new Exporter)->export($this->value),
-            $this->delta,
+            'is equal to %s with delta <%F>>',
+            $this->exporter()->export($this->value),
+            $this->delta
         );
     }
 }

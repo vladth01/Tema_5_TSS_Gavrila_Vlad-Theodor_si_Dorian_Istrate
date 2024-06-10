@@ -15,12 +15,12 @@ use PHPUnit\Util\VersionComparisonOperator;
 /**
  * @psalm-immutable
  *
- * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
+ * @internal This class is not covered by the backward compatibility promise for PHPUnit
  */
-final readonly class ComparisonRequirement extends Requirement
+final class ComparisonRequirement extends Requirement
 {
-    private string $version;
-    private VersionComparisonOperator $operator;
+    private readonly string $version;
+    private readonly VersionComparisonOperator $operator;
 
     public function __construct(string $version, VersionComparisonOperator $operator)
     {

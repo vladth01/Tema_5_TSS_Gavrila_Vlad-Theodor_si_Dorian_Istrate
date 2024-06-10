@@ -18,19 +18,19 @@ use PHPUnit\Event\Telemetry;
  *
  * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
  */
-final readonly class PartialMockObjectCreated implements Event
+final class PartialMockObjectCreated implements Event
 {
-    private Telemetry\Info $telemetryInfo;
+    private readonly Telemetry\Info $telemetryInfo;
 
     /**
      * @psalm-var class-string
      */
-    private string $className;
+    private readonly string $className;
 
     /**
      * @psalm-var list<string>
      */
-    private array $methodNames;
+    private readonly array $methodNames;
 
     /**
      * @psalm-param class-string $className
@@ -67,7 +67,7 @@ final readonly class PartialMockObjectCreated implements Event
     {
         return sprintf(
             'Partial Mock Object Created (%s)',
-            $this->className,
+            $this->className
         );
     }
 }

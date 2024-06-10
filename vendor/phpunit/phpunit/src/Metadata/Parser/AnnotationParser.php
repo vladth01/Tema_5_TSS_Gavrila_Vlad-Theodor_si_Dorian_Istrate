@@ -10,21 +10,16 @@
 namespace PHPUnit\Metadata\Parser;
 
 use function array_merge;
-use function assert;
 use function count;
 use function explode;
 use function method_exists;
 use function preg_replace;
-use function rtrim;
-use function sprintf;
 use function str_contains;
 use function str_starts_with;
 use function strlen;
 use function substr;
 use function trim;
-use PHPUnit\Event\Facade as EventFacade;
 use PHPUnit\Metadata\Annotation\Parser\Registry as AnnotationRegistry;
-use PHPUnit\Metadata\AnnotationsAreNotSupportedForInternalClassesException;
 use PHPUnit\Metadata\Metadata;
 use PHPUnit\Metadata\MetadataCollection;
 use PHPUnit\Metadata\ReflectionException;
@@ -39,19 +34,8 @@ use PHPUnit\Util\VersionComparisonOperator;
 final class AnnotationParser implements Parser
 {
     /**
-     * @psalm-var array<string, true>
-     */
-    private static array $deprecationEmittedForClass = [];
-
-    /**
-     * @psalm-var array<string, true>
-     */
-    private static array $deprecationEmittedForMethod = [];
-
-    /**
      * @psalm-param class-string $className
      *
-     * @throws AnnotationsAreNotSupportedForInternalClassesException
      * @throws InvalidVersionOperatorException
      * @throws ReflectionException
      */
@@ -72,6 +56,11 @@ final class AnnotationParser implements Parser
 
                     break;
 
+                case 'codeCoverageIgnore':
+                    $result[] = Metadata::codeCoverageIgnoreOnClass();
+
+                    break;
+
                 case 'covers':
                     foreach ($values as $value) {
                         $value = $this->cleanUpCoversOrUsesTarget($value);
@@ -82,9 +71,7 @@ final class AnnotationParser implements Parser
                     break;
 
                 case 'coversDefaultClass':
-                    foreach ($values as $value) {
-                        $result[] = Metadata::coversDefaultClass($value);
-                    }
+                    $result[] = Metadata::coversDefaultClass($values[0]);
 
                     break;
 
@@ -151,9 +138,7 @@ final class AnnotationParser implements Parser
                     break;
 
                 case 'usesDefaultClass':
-                    foreach ($values as $value) {
-                        $result[] = Metadata::usesDefaultClass($value);
-                    }
+                    $result[] = Metadata::usesDefaultClass($values[0]);
 
                     break;
             }
@@ -163,31 +148,16 @@ final class AnnotationParser implements Parser
             $result,
             $this->parseRequirements(
                 AnnotationRegistry::getInstance()->forClassName($className)->requirements(),
-                'class',
-            ),
+                'class'
+            )
         );
-
-        if (!empty($result) &&
-            !isset(self::$deprecationEmittedForClass[$className]) &&
-            !str_starts_with($className, 'PHPUnit\TestFixture')) {
-            EventFacade::emitter()->testRunnerTriggeredDeprecation(
-                sprintf(
-                    'Metadata found in doc-comment for class %s. Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.',
-                    $className,
-                ),
-            );
-
-            self::$deprecationEmittedForClass[$className] = true;
-        }
 
         return MetadataCollection::fromArray($result);
     }
 
     /**
      * @psalm-param class-string $className
-     * @psalm-param non-empty-string $methodName
      *
-     * @throws AnnotationsAreNotSupportedForInternalClassesException
      * @throws InvalidVersionOperatorException
      * @throws ReflectionException
      */
@@ -228,6 +198,11 @@ final class AnnotationParser implements Parser
 
                     break;
 
+                case 'codeCoverageIgnore':
+                    $result[] = Metadata::codeCoverageIgnoreOnMethod();
+
+                    break;
+
                 case 'covers':
                     foreach ($values as $value) {
                         $value = $this->cleanUpCoversOrUsesTarget($value);
@@ -244,8 +219,6 @@ final class AnnotationParser implements Parser
 
                 case 'dataProvider':
                     foreach ($values as $value) {
-                        $value = rtrim($value, " ()\n\r\t\v\x00");
-
                         if (str_contains($value, '::')) {
                             $result[] = Metadata::dataProvider(...explode('::', $value));
 
@@ -275,18 +248,15 @@ final class AnnotationParser implements Parser
                         }
 
                         if (str_contains($value, '::')) {
-                            [$_className, $_methodName] = explode('::', $value);
+                            [$className, $methodName] = explode('::', $value);
 
-                            assert($_className !== '');
-                            assert($_methodName !== '');
-
-                            if ($_methodName === 'class') {
-                                $result[] = Metadata::dependsOnClass($_className, $deepClone, $shallowClone);
+                            if ($methodName === 'class') {
+                                $result[] = Metadata::dependsOnClass($className, $deepClone, $shallowClone);
 
                                 continue;
                             }
 
-                            $result[] = Metadata::dependsOnMethod($_className, $_methodName, $deepClone, $shallowClone);
+                            $result[] = Metadata::dependsOnMethod($className, $methodName, $deepClone, $shallowClone);
 
                             continue;
                         }
@@ -318,7 +288,7 @@ final class AnnotationParser implements Parser
 
                         $result[] = Metadata::excludeStaticPropertyFromBackupOnMethod(
                             trim($tmp[0]),
-                            trim($tmp[1]),
+                            trim($tmp[1])
                         );
                     }
 
@@ -393,23 +363,9 @@ final class AnnotationParser implements Parser
                 $result,
                 $this->parseRequirements(
                     AnnotationRegistry::getInstance()->forMethod($className, $methodName)->requirements(),
-                    'method',
-                ),
+                    'method'
+                )
             );
-        }
-
-        if (!empty($result) &&
-            !isset(self::$deprecationEmittedForMethod[$className . '::' . $methodName]) &&
-            !str_starts_with($className, 'PHPUnit\TestFixture')) {
-            EventFacade::emitter()->testRunnerTriggeredDeprecation(
-                sprintf(
-                    'Metadata found in doc-comment for method %s::%s(). Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.',
-                    $className,
-                    $methodName,
-                ),
-            );
-
-            self::$deprecationEmittedForMethod[$className . '::' . $methodName] = true;
         }
 
         return MetadataCollection::fromArray($result);
@@ -417,16 +373,14 @@ final class AnnotationParser implements Parser
 
     /**
      * @psalm-param class-string $className
-     * @psalm-param non-empty-string $methodName
      *
-     * @throws AnnotationsAreNotSupportedForInternalClassesException
      * @throws InvalidVersionOperatorException
      * @throws ReflectionException
      */
     public function forClassAndMethod(string $className, string $methodName): MetadataCollection
     {
         return $this->forClass($className)->mergeWith(
-            $this->forMethod($className, $methodName),
+            $this->forMethod($className, $methodName)
         );
     }
 
@@ -458,7 +412,7 @@ final class AnnotationParser implements Parser
         if (!empty($requirements['PHP'])) {
             $versionRequirement = new ComparisonRequirement(
                 $requirements['PHP']['version'],
-                new VersionComparisonOperator(empty($requirements['PHP']['operator']) ? '>=' : $requirements['PHP']['operator']),
+                new VersionComparisonOperator(empty($requirements['PHP']['operator']) ? '>=' : $requirements['PHP']['operator'])
             );
 
             if ($level === 'class') {
@@ -494,7 +448,7 @@ final class AnnotationParser implements Parser
             foreach ($requirements['extension_versions'] as $extension => $version) {
                 $versionRequirement = new ComparisonRequirement(
                     $version['version'],
-                    new VersionComparisonOperator(empty($version['operator']) ? '>=' : $version['operator']),
+                    new VersionComparisonOperator(empty($version['operator']) ? '>=' : $version['operator'])
                 );
 
                 if ($level === 'class') {
@@ -508,7 +462,7 @@ final class AnnotationParser implements Parser
         if (!empty($requirements['PHPUnit'])) {
             $versionRequirement = new ComparisonRequirement(
                 $requirements['PHPUnit']['version'],
-                new VersionComparisonOperator(empty($requirements['PHPUnit']['operator']) ? '>=' : $requirements['PHPUnit']['operator']),
+                new VersionComparisonOperator(empty($requirements['PHPUnit']['operator']) ? '>=' : $requirements['PHPUnit']['operator'])
             );
 
             if ($level === 'class') {

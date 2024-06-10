@@ -14,118 +14,103 @@ namespace PHPUnit\TextUI\XmlConfiguration;
  *
  * @psalm-immutable
  */
-final readonly class PHPUnit
+final class PHPUnit
 {
-    private ?string $cacheDirectory;
-    private bool $cacheResult;
-    private int|string $columns;
-    private string $colors;
-    private bool $stderr;
-    private bool $displayDetailsOnIncompleteTests;
-    private bool $displayDetailsOnSkippedTests;
-    private bool $displayDetailsOnTestsThatTriggerDeprecations;
-    private bool $displayDetailsOnTestsThatTriggerErrors;
-    private bool $displayDetailsOnTestsThatTriggerNotices;
-    private bool $displayDetailsOnTestsThatTriggerWarnings;
-    private bool $reverseDefectList;
-    private bool $requireCoverageMetadata;
-    private ?string $bootstrap;
-    private bool $processIsolation;
-    private bool $failOnDeprecation;
-    private bool $failOnEmptyTestSuite;
-    private bool $failOnIncomplete;
-    private bool $failOnNotice;
-    private bool $failOnRisky;
-    private bool $failOnSkipped;
-    private bool $failOnWarning;
-    private bool $stopOnDefect;
-    private bool $stopOnDeprecation;
-    private bool $stopOnError;
-    private bool $stopOnFailure;
-    private bool $stopOnIncomplete;
-    private bool $stopOnNotice;
-    private bool $stopOnRisky;
-    private bool $stopOnSkipped;
-    private bool $stopOnWarning;
+    private readonly ?string $cacheDirectory;
+    private readonly bool $cacheResult;
+    private readonly ?string $cacheResultFile;
+    private readonly int|string $columns;
+    private readonly string $colors;
+    private readonly bool $stderr;
+    private readonly bool $displayDetailsOnIncompleteTests;
+    private readonly bool $displayDetailsOnSkippedTests;
+    private readonly bool $displayDetailsOnTestsThatTriggerDeprecations;
+    private readonly bool $displayDetailsOnTestsThatTriggerErrors;
+    private readonly bool $displayDetailsOnTestsThatTriggerNotices;
+    private readonly bool $displayDetailsOnTestsThatTriggerWarnings;
+    private readonly bool $reverseDefectList;
+    private readonly bool $requireCoverageMetadata;
+    private readonly ?string $bootstrap;
+    private readonly bool $processIsolation;
+    private readonly bool $failOnEmptyTestSuite;
+    private readonly bool $failOnIncomplete;
+    private readonly bool $failOnRisky;
+    private readonly bool $failOnSkipped;
+    private readonly bool $failOnWarning;
+    private readonly bool $stopOnDefect;
+    private readonly bool $stopOnError;
+    private readonly bool $stopOnFailure;
+    private readonly bool $stopOnWarning;
+    private readonly bool $stopOnIncomplete;
+    private readonly bool $stopOnRisky;
+    private readonly bool $stopOnSkipped;
+    private readonly ?string $extensionsDirectory;
+    private readonly bool $beStrictAboutChangesToGlobalState;
+    private readonly bool $beStrictAboutOutputDuringTests;
+    private readonly bool $beStrictAboutTestsThatDoNotTestAnything;
+    private readonly bool $beStrictAboutCoverageMetadata;
+    private readonly bool $enforceTimeLimit;
+    private readonly int $defaultTimeLimit;
+    private readonly int $timeoutForSmallTests;
+    private readonly int $timeoutForMediumTests;
+    private readonly int $timeoutForLargeTests;
+    private readonly ?string $defaultTestSuite;
+    private readonly int $executionOrder;
+    private readonly bool $resolveDependencies;
+    private readonly bool $defectsFirst;
+    private readonly bool $backupGlobals;
+    private readonly bool $backupStaticProperties;
+    private readonly bool $registerMockObjectsFromTestArgumentsRecursively;
+    private readonly bool $testdoxPrinter;
 
-    /**
-     * @psalm-var ?non-empty-string
-     */
-    private ?string $extensionsDirectory;
-    private bool $beStrictAboutChangesToGlobalState;
-    private bool $beStrictAboutOutputDuringTests;
-    private bool $beStrictAboutTestsThatDoNotTestAnything;
-    private bool $beStrictAboutCoverageMetadata;
-    private bool $enforceTimeLimit;
-    private int $defaultTimeLimit;
-    private int $timeoutForSmallTests;
-    private int $timeoutForMediumTests;
-    private int $timeoutForLargeTests;
-    private ?string $defaultTestSuite;
-    private int $executionOrder;
-    private bool $resolveDependencies;
-    private bool $defectsFirst;
-    private bool $backupGlobals;
-    private bool $backupStaticProperties;
-    private bool $testdoxPrinter;
-    private bool $controlGarbageCollector;
-    private int $numberOfTestsBeforeGarbageCollection;
-
-    /**
-     * @psalm-param ?non-empty-string $extensionsDirectory
-     */
-    public function __construct(?string $cacheDirectory, bool $cacheResult, int|string $columns, string $colors, bool $stderr, bool $displayDetailsOnIncompleteTests, bool $displayDetailsOnSkippedTests, bool $displayDetailsOnTestsThatTriggerDeprecations, bool $displayDetailsOnTestsThatTriggerErrors, bool $displayDetailsOnTestsThatTriggerNotices, bool $displayDetailsOnTestsThatTriggerWarnings, bool $reverseDefectList, bool $requireCoverageMetadata, ?string $bootstrap, bool $processIsolation, bool $failOnDeprecation, bool $failOnEmptyTestSuite, bool $failOnIncomplete, bool $failOnNotice, bool $failOnRisky, bool $failOnSkipped, bool $failOnWarning, bool $stopOnDefect, bool $stopOnDeprecation, bool $stopOnError, bool $stopOnFailure, bool $stopOnIncomplete, bool $stopOnNotice, bool $stopOnRisky, bool $stopOnSkipped, bool $stopOnWarning, ?string $extensionsDirectory, bool $beStrictAboutChangesToGlobalState, bool $beStrictAboutOutputDuringTests, bool $beStrictAboutTestsThatDoNotTestAnything, bool $beStrictAboutCoverageMetadata, bool $enforceTimeLimit, int $defaultTimeLimit, int $timeoutForSmallTests, int $timeoutForMediumTests, int $timeoutForLargeTests, ?string $defaultTestSuite, int $executionOrder, bool $resolveDependencies, bool $defectsFirst, bool $backupGlobals, bool $backupStaticProperties, bool $testdoxPrinter, bool $controlGarbageCollector, int $numberOfTestsBeforeGarbageCollection)
+    public function __construct(?string $cacheDirectory, bool $cacheResult, ?string $cacheResultFile, int|string $columns, string $colors, bool $stderr, bool $displayDetailsOnIncompleteTests, bool $displayDetailsOnSkippedTests, bool $displayDetailsOnTestsThatTriggerDeprecations, bool $displayDetailsOnTestsThatTriggerErrors, bool $displayDetailsOnTestsThatTriggerNotices, bool $displayDetailsOnTestsThatTriggerWarnings, bool $reverseDefectList, bool $requireCoverageMetadata, ?string $bootstrap, bool $processIsolation, bool $failOnEmptyTestSuite, bool $failOnIncomplete, bool $failOnRisky, bool $failOnSkipped, bool $failOnWarning, bool $stopOnDefect, bool $stopOnError, bool $stopOnFailure, bool $stopOnWarning, bool $stopOnIncomplete, bool $stopOnRisky, bool $stopOnSkipped, ?string $extensionsDirectory, bool $beStrictAboutChangesToGlobalState, bool $beStrictAboutOutputDuringTests, bool $beStrictAboutTestsThatDoNotTestAnything, bool $beStrictAboutCoverageMetadata, bool $enforceTimeLimit, int $defaultTimeLimit, int $timeoutForSmallTests, int $timeoutForMediumTests, int $timeoutForLargeTests, ?string $defaultTestSuite, int $executionOrder, bool $resolveDependencies, bool $defectsFirst, bool $backupGlobals, bool $backupStaticProperties, bool $registerMockObjectsFromTestArgumentsRecursively, bool $testdoxPrinter)
     {
-        $this->cacheDirectory                               = $cacheDirectory;
-        $this->cacheResult                                  = $cacheResult;
-        $this->columns                                      = $columns;
-        $this->colors                                       = $colors;
-        $this->stderr                                       = $stderr;
-        $this->displayDetailsOnIncompleteTests              = $displayDetailsOnIncompleteTests;
-        $this->displayDetailsOnSkippedTests                 = $displayDetailsOnSkippedTests;
-        $this->displayDetailsOnTestsThatTriggerDeprecations = $displayDetailsOnTestsThatTriggerDeprecations;
-        $this->displayDetailsOnTestsThatTriggerErrors       = $displayDetailsOnTestsThatTriggerErrors;
-        $this->displayDetailsOnTestsThatTriggerNotices      = $displayDetailsOnTestsThatTriggerNotices;
-        $this->displayDetailsOnTestsThatTriggerWarnings     = $displayDetailsOnTestsThatTriggerWarnings;
-        $this->reverseDefectList                            = $reverseDefectList;
-        $this->requireCoverageMetadata                      = $requireCoverageMetadata;
-        $this->bootstrap                                    = $bootstrap;
-        $this->processIsolation                             = $processIsolation;
-        $this->failOnDeprecation                            = $failOnDeprecation;
-        $this->failOnEmptyTestSuite                         = $failOnEmptyTestSuite;
-        $this->failOnIncomplete                             = $failOnIncomplete;
-        $this->failOnNotice                                 = $failOnNotice;
-        $this->failOnRisky                                  = $failOnRisky;
-        $this->failOnSkipped                                = $failOnSkipped;
-        $this->failOnWarning                                = $failOnWarning;
-        $this->stopOnDefect                                 = $stopOnDefect;
-        $this->stopOnDeprecation                            = $stopOnDeprecation;
-        $this->stopOnError                                  = $stopOnError;
-        $this->stopOnFailure                                = $stopOnFailure;
-        $this->stopOnIncomplete                             = $stopOnIncomplete;
-        $this->stopOnNotice                                 = $stopOnNotice;
-        $this->stopOnRisky                                  = $stopOnRisky;
-        $this->stopOnSkipped                                = $stopOnSkipped;
-        $this->stopOnWarning                                = $stopOnWarning;
-        $this->extensionsDirectory                          = $extensionsDirectory;
-        $this->beStrictAboutChangesToGlobalState            = $beStrictAboutChangesToGlobalState;
-        $this->beStrictAboutOutputDuringTests               = $beStrictAboutOutputDuringTests;
-        $this->beStrictAboutTestsThatDoNotTestAnything      = $beStrictAboutTestsThatDoNotTestAnything;
-        $this->beStrictAboutCoverageMetadata                = $beStrictAboutCoverageMetadata;
-        $this->enforceTimeLimit                             = $enforceTimeLimit;
-        $this->defaultTimeLimit                             = $defaultTimeLimit;
-        $this->timeoutForSmallTests                         = $timeoutForSmallTests;
-        $this->timeoutForMediumTests                        = $timeoutForMediumTests;
-        $this->timeoutForLargeTests                         = $timeoutForLargeTests;
-        $this->defaultTestSuite                             = $defaultTestSuite;
-        $this->executionOrder                               = $executionOrder;
-        $this->resolveDependencies                          = $resolveDependencies;
-        $this->defectsFirst                                 = $defectsFirst;
-        $this->backupGlobals                                = $backupGlobals;
-        $this->backupStaticProperties                       = $backupStaticProperties;
-        $this->testdoxPrinter                               = $testdoxPrinter;
-        $this->controlGarbageCollector                      = $controlGarbageCollector;
-        $this->numberOfTestsBeforeGarbageCollection         = $numberOfTestsBeforeGarbageCollection;
+        $this->cacheDirectory                                  = $cacheDirectory;
+        $this->cacheResult                                     = $cacheResult;
+        $this->cacheResultFile                                 = $cacheResultFile;
+        $this->columns                                         = $columns;
+        $this->colors                                          = $colors;
+        $this->stderr                                          = $stderr;
+        $this->displayDetailsOnIncompleteTests                 = $displayDetailsOnIncompleteTests;
+        $this->displayDetailsOnSkippedTests                    = $displayDetailsOnSkippedTests;
+        $this->displayDetailsOnTestsThatTriggerDeprecations    = $displayDetailsOnTestsThatTriggerDeprecations;
+        $this->displayDetailsOnTestsThatTriggerErrors          = $displayDetailsOnTestsThatTriggerErrors;
+        $this->displayDetailsOnTestsThatTriggerNotices         = $displayDetailsOnTestsThatTriggerNotices;
+        $this->displayDetailsOnTestsThatTriggerWarnings        = $displayDetailsOnTestsThatTriggerWarnings;
+        $this->reverseDefectList                               = $reverseDefectList;
+        $this->requireCoverageMetadata                         = $requireCoverageMetadata;
+        $this->bootstrap                                       = $bootstrap;
+        $this->processIsolation                                = $processIsolation;
+        $this->failOnEmptyTestSuite                            = $failOnEmptyTestSuite;
+        $this->failOnIncomplete                                = $failOnIncomplete;
+        $this->failOnRisky                                     = $failOnRisky;
+        $this->failOnSkipped                                   = $failOnSkipped;
+        $this->failOnWarning                                   = $failOnWarning;
+        $this->stopOnDefect                                    = $stopOnDefect;
+        $this->stopOnError                                     = $stopOnError;
+        $this->stopOnFailure                                   = $stopOnFailure;
+        $this->stopOnWarning                                   = $stopOnWarning;
+        $this->stopOnIncomplete                                = $stopOnIncomplete;
+        $this->stopOnRisky                                     = $stopOnRisky;
+        $this->stopOnSkipped                                   = $stopOnSkipped;
+        $this->extensionsDirectory                             = $extensionsDirectory;
+        $this->beStrictAboutChangesToGlobalState               = $beStrictAboutChangesToGlobalState;
+        $this->beStrictAboutOutputDuringTests                  = $beStrictAboutOutputDuringTests;
+        $this->beStrictAboutTestsThatDoNotTestAnything         = $beStrictAboutTestsThatDoNotTestAnything;
+        $this->beStrictAboutCoverageMetadata                   = $beStrictAboutCoverageMetadata;
+        $this->enforceTimeLimit                                = $enforceTimeLimit;
+        $this->defaultTimeLimit                                = $defaultTimeLimit;
+        $this->timeoutForSmallTests                            = $timeoutForSmallTests;
+        $this->timeoutForMediumTests                           = $timeoutForMediumTests;
+        $this->timeoutForLargeTests                            = $timeoutForLargeTests;
+        $this->defaultTestSuite                                = $defaultTestSuite;
+        $this->executionOrder                                  = $executionOrder;
+        $this->resolveDependencies                             = $resolveDependencies;
+        $this->defectsFirst                                    = $defectsFirst;
+        $this->backupGlobals                                   = $backupGlobals;
+        $this->backupStaticProperties                          = $backupStaticProperties;
+        $this->registerMockObjectsFromTestArgumentsRecursively = $registerMockObjectsFromTestArgumentsRecursively;
+        $this->testdoxPrinter                                  = $testdoxPrinter;
     }
 
     /**
@@ -151,6 +136,30 @@ final readonly class PHPUnit
     public function cacheResult(): bool
     {
         return $this->cacheResult;
+    }
+
+    /**
+     * @psalm-assert-if-true !null $this->cacheResultFile
+     *
+     * @deprecated
+     */
+    public function hasCacheResultFile(): bool
+    {
+        return $this->cacheResultFile !== null;
+    }
+
+    /**
+     * @throws Exception
+     *
+     * @deprecated
+     */
+    public function cacheResultFile(): string
+    {
+        if (!$this->hasCacheResultFile()) {
+            throw new Exception('Cache result file is not configured');
+        }
+
+        return $this->cacheResultFile;
     }
 
     public function columns(): int|string
@@ -233,11 +242,6 @@ final readonly class PHPUnit
         return $this->processIsolation;
     }
 
-    public function failOnDeprecation(): bool
-    {
-        return $this->failOnDeprecation;
-    }
-
     public function failOnEmptyTestSuite(): bool
     {
         return $this->failOnEmptyTestSuite;
@@ -246,11 +250,6 @@ final readonly class PHPUnit
     public function failOnIncomplete(): bool
     {
         return $this->failOnIncomplete;
-    }
-
-    public function failOnNotice(): bool
-    {
-        return $this->failOnNotice;
     }
 
     public function failOnRisky(): bool
@@ -273,11 +272,6 @@ final readonly class PHPUnit
         return $this->stopOnDefect;
     }
 
-    public function stopOnDeprecation(): bool
-    {
-        return $this->stopOnDeprecation;
-    }
-
     public function stopOnError(): bool
     {
         return $this->stopOnError;
@@ -288,14 +282,14 @@ final readonly class PHPUnit
         return $this->stopOnFailure;
     }
 
+    public function stopOnWarning(): bool
+    {
+        return $this->stopOnWarning;
+    }
+
     public function stopOnIncomplete(): bool
     {
         return $this->stopOnIncomplete;
-    }
-
-    public function stopOnNotice(): bool
-    {
-        return $this->stopOnNotice;
     }
 
     public function stopOnRisky(): bool
@@ -308,11 +302,6 @@ final readonly class PHPUnit
         return $this->stopOnSkipped;
     }
 
-    public function stopOnWarning(): bool
-    {
-        return $this->stopOnWarning;
-    }
-
     /**
      * @psalm-assert-if-true !null $this->extensionsDirectory
      */
@@ -322,8 +311,6 @@ final readonly class PHPUnit
     }
 
     /**
-     * @psalm-return non-empty-string
-     *
      * @throws Exception
      */
     public function extensionsDirectory(): string
@@ -425,18 +412,13 @@ final readonly class PHPUnit
         return $this->backupStaticProperties;
     }
 
+    public function registerMockObjectsFromTestArgumentsRecursively(): bool
+    {
+        return $this->registerMockObjectsFromTestArgumentsRecursively;
+    }
+
     public function testdoxPrinter(): bool
     {
         return $this->testdoxPrinter;
-    }
-
-    public function controlGarbageCollector(): bool
-    {
-        return $this->controlGarbageCollector;
-    }
-
-    public function numberOfTestsBeforeGarbageCollection(): int
-    {
-        return $this->numberOfTestsBeforeGarbageCollection;
     }
 }

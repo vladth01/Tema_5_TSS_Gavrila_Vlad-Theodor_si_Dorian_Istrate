@@ -20,12 +20,12 @@ use IteratorAggregate;
  *
  * @template-implements IteratorAggregate<int, FilterDirectory>
  */
-final readonly class FilterDirectoryCollection implements Countable, IteratorAggregate
+final class FilterDirectoryCollection implements Countable, IteratorAggregate
 {
     /**
      * @psalm-var list<FilterDirectory>
      */
-    private array $directories;
+    private readonly array $directories;
 
     /**
      * @psalm-param list<FilterDirectory> $directories

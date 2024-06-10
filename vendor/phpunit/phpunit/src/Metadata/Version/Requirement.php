@@ -19,9 +19,9 @@ use PHPUnit\Util\VersionComparisonOperator;
 /**
  * @psalm-immutable
  *
- * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
+ * @internal This class is not covered by the backward compatibility promise for PHPUnit
  */
-abstract readonly class Requirement
+abstract class Requirement
 {
     private const VERSION_COMPARISON = '/(?P<operator>[<>=!]{0,2})\s*(?P<version>[\d\.-]+(dev|(RC|alpha|beta)[\d\.])?)[ \t]*\r?$/m';
 
@@ -34,16 +34,16 @@ abstract readonly class Requirement
         try {
             return new ConstraintRequirement(
                 (new VersionConstraintParser)->parse(
-                    $versionRequirement,
-                ),
+                    $versionRequirement
+                )
             );
         } catch (UnsupportedVersionConstraintException) {
             if (preg_match(self::VERSION_COMPARISON, $versionRequirement, $matches)) {
                 return new ComparisonRequirement(
                     $matches['version'],
                     new VersionComparisonOperator(
-                        !empty($matches['operator']) ? $matches['operator'] : '>=',
-                    ),
+                        !empty($matches['operator']) ? $matches['operator'] : '>='
+                    )
                 );
             }
         }

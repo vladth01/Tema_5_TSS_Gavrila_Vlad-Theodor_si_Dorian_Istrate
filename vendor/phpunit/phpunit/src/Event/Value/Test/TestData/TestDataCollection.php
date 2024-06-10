@@ -18,34 +18,32 @@ use IteratorAggregate;
  *
  * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
  */
-final readonly class TestDataCollection implements Countable, IteratorAggregate
+final class TestDataCollection implements Countable, IteratorAggregate
 {
     /**
      * @psalm-var list<TestData>
      */
-    private array $data;
-    private ?DataFromDataProvider $fromDataProvider;
+    private readonly array $data;
+    private ?DataFromDataProvider $fromDataProvider = null;
 
     /**
      * @psalm-param list<TestData> $data
+     *
+     * @throws MoreThanOneDataSetFromDataProviderException
      */
     public static function fromArray(array $data): self
     {
         return new self(...$data);
     }
 
+    /**
+     * @throws MoreThanOneDataSetFromDataProviderException
+     */
     private function __construct(TestData ...$data)
     {
-        $fromDataProvider = null;
+        $this->ensureNoMoreThanOneDataFromDataProvider($data);
 
-        foreach ($data as $_data) {
-            if ($_data->isFromDataProvider()) {
-                $fromDataProvider = $_data;
-            }
-        }
-
-        $this->data             = $data;
-        $this->fromDataProvider = $fromDataProvider;
+        $this->data = $data;
     }
 
     /**
@@ -84,5 +82,23 @@ final readonly class TestDataCollection implements Countable, IteratorAggregate
     public function getIterator(): TestDataCollectionIterator
     {
         return new TestDataCollectionIterator($this);
+    }
+
+    /**
+     * @psalm-param list<TestData> $data
+     *
+     * @throws MoreThanOneDataSetFromDataProviderException
+     */
+    private function ensureNoMoreThanOneDataFromDataProvider(array $data): void
+    {
+        foreach ($data as $_data) {
+            if ($_data->isFromDataProvider()) {
+                if ($this->fromDataProvider !== null) {
+                    throw new MoreThanOneDataSetFromDataProviderException;
+                }
+
+                $this->fromDataProvider = $_data;
+            }
+        }
     }
 }

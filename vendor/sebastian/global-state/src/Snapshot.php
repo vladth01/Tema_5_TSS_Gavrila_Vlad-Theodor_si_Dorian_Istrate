@@ -12,6 +12,8 @@ namespace SebastianBergmann\GlobalState;
 use function array_keys;
 use function array_merge;
 use function array_reverse;
+use function assert;
+use function func_get_args;
 use function get_declared_classes;
 use function get_declared_interfaces;
 use function get_declared_traits;
@@ -34,7 +36,7 @@ use Throwable;
 /**
  * A snapshot of global state.
  */
-final class Snapshot
+class Snapshot
 {
     private ExcludeList $excludeList;
     private array $globalVariables      = [];
@@ -307,8 +309,16 @@ final class Snapshot
         return true;
     }
 
-    private function enumerateObjectsAndResources(mixed $variable, Context $processed = new Context): array
+    private function enumerateObjectsAndResources(mixed $variable): array
     {
+        if (isset(func_get_args()[1])) {
+            $processed = func_get_args()[1];
+        } else {
+            $processed = new Context;
+        }
+
+        assert($processed instanceof Context);
+
         $result = [];
 
         if ($processed->contains($variable)) {

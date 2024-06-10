@@ -12,14 +12,16 @@ namespace PHPUnit\Logging\JUnit;
 use PHPUnit\Event\InvalidArgumentException;
 use PHPUnit\Event\Test\MarkedIncomplete;
 use PHPUnit\Event\Test\MarkedIncompleteSubscriber;
+use PHPUnit\Event\TestData\NoDataSetFromDataProviderException;
 
 /**
  * @internal This class is not covered by the backward compatibility promise for PHPUnit
  */
-final readonly class TestMarkedIncompleteSubscriber extends Subscriber implements MarkedIncompleteSubscriber
+final class TestMarkedIncompleteSubscriber extends Subscriber implements MarkedIncompleteSubscriber
 {
     /**
      * @throws InvalidArgumentException
+     * @throws NoDataSetFromDataProviderException
      */
     public function notify(MarkedIncomplete $event): void
     {

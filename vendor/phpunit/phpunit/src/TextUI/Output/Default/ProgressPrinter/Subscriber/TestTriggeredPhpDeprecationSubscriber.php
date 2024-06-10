@@ -15,10 +15,10 @@ use PHPUnit\Event\Test\PhpDeprecationTriggeredSubscriber;
 /**
  * @internal This class is not covered by the backward compatibility promise for PHPUnit
  */
-final readonly class TestTriggeredPhpDeprecationSubscriber extends Subscriber implements PhpDeprecationTriggeredSubscriber
+final class TestTriggeredPhpDeprecationSubscriber extends Subscriber implements PhpDeprecationTriggeredSubscriber
 {
     public function notify(PhpDeprecationTriggered $event): void
     {
-        $this->printer()->testTriggeredPhpDeprecation($event);
+        $this->printer()->testTriggeredDeprecation();
     }
 }

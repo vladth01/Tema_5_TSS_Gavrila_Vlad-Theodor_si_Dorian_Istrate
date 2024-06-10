@@ -9,23 +9,19 @@
  */
 namespace PHPUnit\Framework\Constraint;
 
-use function explode;
-use function gettype;
 use function is_array;
 use function is_object;
 use function is_string;
 use function sprintf;
 use PHPUnit\Framework\ExpectationFailedException;
 use SebastianBergmann\Comparator\ComparisonFailure;
-use SebastianBergmann\Exporter\Exporter;
-use UnitEnum;
 
 /**
  * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
  */
-final readonly class IsIdentical extends Constraint
+final class IsIdentical extends Constraint
 {
-    private mixed $value;
+    private readonly mixed $value;
 
     public function __construct(mixed $value)
     {
@@ -61,19 +57,17 @@ final readonly class IsIdentical extends Constraint
                     $this->value,
                     $other,
                     sprintf("'%s'", $this->value),
-                    sprintf("'%s'", $other),
+                    sprintf("'%s'", $other)
                 );
             }
 
-            // if both values are array or enums, make sure a diff is generated
-            if ((is_array($this->value) && is_array($other)) || ($this->value instanceof UnitEnum && $other instanceof UnitEnum)) {
-                $exporter = new Exporter;
-
+            // if both values are array, make sure a diff is generated
+            if (is_array($this->value) && is_array($other)) {
                 $f = new ComparisonFailure(
                     $this->value,
                     $other,
-                    $exporter->export($this->value),
-                    $exporter->export($other),
+                    $this->exporter()->export($this->value),
+                    $this->exporter()->export($other)
                 );
             }
 
@@ -93,7 +87,7 @@ final readonly class IsIdentical extends Constraint
                 $this->value::class . '"';
         }
 
-        return 'is identical to ' . (new Exporter)->export($this->value);
+        return 'is identical to ' . $this->exporter()->export($this->value);
     }
 
     /**
@@ -106,10 +100,6 @@ final readonly class IsIdentical extends Constraint
     {
         if (is_object($this->value) && is_object($other)) {
             return 'two variables reference the same object';
-        }
-
-        if (explode(' ', gettype($this->value), 2)[0] === 'resource' && explode(' ', gettype($other), 2)[0] === 'resource') {
-            return 'two variables reference the same resource';
         }
 
         if (is_string($this->value) && is_string($other)) {

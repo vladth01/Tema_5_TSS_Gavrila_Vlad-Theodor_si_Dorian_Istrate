@@ -16,9 +16,9 @@ use PHPUnit\TextUI\Configuration\File;
  *
  * @psalm-immutable
  */
-final readonly class Text
+final class Text
 {
-    private File $target;
+    private readonly File $target;
 
     public function __construct(File $target)
     {

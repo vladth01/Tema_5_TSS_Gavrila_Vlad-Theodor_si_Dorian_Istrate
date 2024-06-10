@@ -16,10 +16,10 @@ use PHPUnit\TextUI\Configuration\GroupCollection;
  *
  * @psalm-immutable
  */
-final readonly class Groups
+final class Groups
 {
-    private GroupCollection $include;
-    private GroupCollection $exclude;
+    private readonly GroupCollection $include;
+    private readonly GroupCollection $exclude;
 
     public function __construct(GroupCollection $include, GroupCollection $exclude)
     {

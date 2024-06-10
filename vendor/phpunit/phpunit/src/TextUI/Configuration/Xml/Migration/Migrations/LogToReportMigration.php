@@ -17,7 +17,7 @@ use DOMXPath;
 /**
  * @internal This class is not covered by the backward compatibility promise for PHPUnit
  */
-abstract readonly class LogToReportMigration implements Migration
+abstract class LogToReportMigration implements Migration
 {
     /**
      * @throws MigrationException
@@ -67,7 +67,7 @@ abstract readonly class LogToReportMigration implements Migration
     private function findLogNode(DOMDocument $document): ?DOMElement
     {
         $logNode = (new DOMXPath($document))->query(
-            sprintf('//logging/log[@type="%s"]', $this->forType()),
+            sprintf('//logging/log[@type="%s"]', $this->forType())
         )->item(0);
 
         if (!$logNode instanceof DOMElement) {

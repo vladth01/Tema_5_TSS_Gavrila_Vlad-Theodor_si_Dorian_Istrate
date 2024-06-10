@@ -18,15 +18,15 @@ use PHPUnit\Event\Telemetry;
  *
  * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
  */
-final readonly class TestProxyCreated implements Event
+final class TestProxyCreated implements Event
 {
-    private Telemetry\Info $telemetryInfo;
+    private readonly Telemetry\Info $telemetryInfo;
 
     /**
      * @psalm-var class-string
      */
-    private string $className;
-    private string $constructorArguments;
+    private readonly string $className;
+    private readonly string $constructorArguments;
 
     /**
      * @psalm-param class-string $className
@@ -60,7 +60,7 @@ final readonly class TestProxyCreated implements Event
     {
         return sprintf(
             'Test Proxy Created (%s)',
-            $this->className,
+            $this->className
         );
     }
 }

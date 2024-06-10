@@ -17,12 +17,12 @@ use Attribute;
  * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
  */
 #[Attribute(Attribute::TARGET_CLASS | Attribute::TARGET_METHOD | Attribute::IS_REPEATABLE)]
-final readonly class ExcludeGlobalVariableFromBackup
+final class ExcludeGlobalVariableFromBackup
 {
     /**
      * @psalm-var non-empty-string
      */
-    private string $globalVariableName;
+    private readonly string $globalVariableName;
 
     /**
      * @psalm-param non-empty-string $globalVariableName

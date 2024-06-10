@@ -17,7 +17,7 @@ use PHPUnit\Runner\Version;
 /**
  * @internal This class is not covered by the backward compatibility promise for PHPUnit
  */
-final readonly class UpdateSchemaLocation implements Migration
+final class UpdateSchemaLocation implements Migration
 {
     public function migrate(DOMDocument $document): void
     {
@@ -28,7 +28,7 @@ final readonly class UpdateSchemaLocation implements Migration
         $root->setAttributeNS(
             'http://www.w3.org/2001/XMLSchema-instance',
             'xsi:noNamespaceSchemaLocation',
-            'https://schema.phpunit.de/' . Version::series() . '/phpunit.xsd',
+            'https://schema.phpunit.de/' . Version::series() . '/phpunit.xsd'
         );
     }
 }

@@ -17,12 +17,12 @@ use Attribute;
  * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
  */
 #[Attribute(Attribute::TARGET_CLASS | Attribute::TARGET_METHOD)]
-final readonly class TestDox
+final class TestDox
 {
     /**
      * @psalm-var non-empty-string
      */
-    private string $text;
+    private readonly string $text;
 
     /**
      * @psalm-param non-empty-string $text

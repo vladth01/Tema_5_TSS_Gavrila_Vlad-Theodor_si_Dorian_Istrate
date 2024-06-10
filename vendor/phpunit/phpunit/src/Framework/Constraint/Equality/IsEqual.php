@@ -16,18 +16,23 @@ use function trim;
 use PHPUnit\Framework\ExpectationFailedException;
 use SebastianBergmann\Comparator\ComparisonFailure;
 use SebastianBergmann\Comparator\Factory as ComparatorFactory;
-use SebastianBergmann\Exporter\Exporter;
 
 /**
  * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
  */
-final readonly class IsEqual extends Constraint
+final class IsEqual extends Constraint
 {
-    private mixed $value;
+    private readonly mixed $value;
+    private readonly float $delta;
+    private readonly bool $canonicalize;
+    private readonly bool $ignoreCase;
 
-    public function __construct(mixed $value)
+    public function __construct(mixed $value, float $delta = 0.0, bool $canonicalize = false, bool $ignoreCase = false)
     {
-        $this->value = $value;
+        $this->value        = $value;
+        $this->delta        = $delta;
+        $this->canonicalize = $canonicalize;
+        $this->ignoreCase   = $ignoreCase;
     }
 
     /**
@@ -56,12 +61,15 @@ final readonly class IsEqual extends Constraint
         try {
             $comparator = $comparatorFactory->getComparatorFor(
                 $this->value,
-                $other,
+                $other
             );
 
             $comparator->assertEquals(
                 $this->value,
                 $other,
+                $this->delta,
+                $this->canonicalize,
+                $this->ignoreCase
             );
         } catch (ComparisonFailure $f) {
             if ($returnResult) {
@@ -70,7 +78,7 @@ final readonly class IsEqual extends Constraint
 
             throw new ExpectationFailedException(
                 trim($description . "\n" . $f->getMessage()),
-                $f,
+                $f
             );
         }
 
@@ -91,14 +99,21 @@ final readonly class IsEqual extends Constraint
 
             return sprintf(
                 "is equal to '%s'",
-                $this->value,
+                $this->value
+            );
+        }
+
+        if ($this->delta != 0) {
+            $delta = sprintf(
+                ' with delta <%F>',
+                $this->delta
             );
         }
 
         return sprintf(
             'is equal to %s%s',
-            (new Exporter)->export($this->value),
-            $delta,
+            $this->exporter()->export($this->value),
+            $delta
         );
     }
 }

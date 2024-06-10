@@ -18,14 +18,14 @@ use PHPUnit\Event\Telemetry;
  *
  * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
  */
-final readonly class TestStubCreated implements Event
+final class TestStubCreated implements Event
 {
-    private Telemetry\Info $telemetryInfo;
+    private readonly Telemetry\Info $telemetryInfo;
 
     /**
      * @var class-string
      */
-    private string $className;
+    private readonly string $className;
 
     /**
      * @psalm-param class-string $className
@@ -53,7 +53,7 @@ final readonly class TestStubCreated implements Event
     {
         return sprintf(
             'Test Stub Created (%s)',
-            $this->className,
+            $this->className
         );
     }
 }

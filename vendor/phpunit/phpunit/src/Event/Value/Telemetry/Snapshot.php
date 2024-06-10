@@ -14,19 +14,17 @@ namespace PHPUnit\Event\Telemetry;
  *
  * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
  */
-final readonly class Snapshot
+final class Snapshot
 {
-    private HRTime $time;
-    private MemoryUsage $memoryUsage;
-    private MemoryUsage $peakMemoryUsage;
-    private GarbageCollectorStatus $garbageCollectorStatus;
+    private readonly HRTime $time;
+    private readonly MemoryUsage $memoryUsage;
+    private readonly MemoryUsage $peakMemoryUsage;
 
-    public function __construct(HRTime $time, MemoryUsage $memoryUsage, MemoryUsage $peakMemoryUsage, GarbageCollectorStatus $garbageCollectorStatus)
+    public function __construct(HRTime $time, MemoryUsage $memoryUsage, MemoryUsage $peakMemoryUsage)
     {
-        $this->time                   = $time;
-        $this->memoryUsage            = $memoryUsage;
-        $this->peakMemoryUsage        = $peakMemoryUsage;
-        $this->garbageCollectorStatus = $garbageCollectorStatus;
+        $this->time            = $time;
+        $this->memoryUsage     = $memoryUsage;
+        $this->peakMemoryUsage = $peakMemoryUsage;
     }
 
     public function time(): HRTime
@@ -42,10 +40,5 @@ final readonly class Snapshot
     public function peakMemoryUsage(): MemoryUsage
     {
         return $this->peakMemoryUsage;
-    }
-
-    public function garbageCollectorStatus(): GarbageCollectorStatus
-    {
-        return $this->garbageCollectorStatus;
     }
 }

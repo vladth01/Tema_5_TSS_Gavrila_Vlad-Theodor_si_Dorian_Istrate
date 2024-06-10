@@ -12,7 +12,7 @@ namespace SebastianBergmann\CodeUnit;
 /**
  * @psalm-immutable
  */
-final readonly class FileUnit extends CodeUnit
+final class FileUnit extends CodeUnit
 {
     /**
      * @psalm-assert-if-true FileUnit $this

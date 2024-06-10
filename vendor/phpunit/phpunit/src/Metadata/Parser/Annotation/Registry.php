@@ -10,7 +10,6 @@
 namespace PHPUnit\Metadata\Annotation\Parser;
 
 use function array_key_exists;
-use PHPUnit\Metadata\AnnotationsAreNotSupportedForInternalClassesException;
 use PHPUnit\Metadata\ReflectionException;
 use ReflectionClass;
 use ReflectionMethod;
@@ -40,11 +39,14 @@ final class Registry
         return self::$instance ?? self::$instance = new self;
     }
 
+    private function __construct()
+    {
+    }
+
     /**
-     * @psalm-param class-string $class
-     *
-     * @throws AnnotationsAreNotSupportedForInternalClassesException
      * @throws ReflectionException
+     *
+     * @psalm-param class-string $class
      */
     public function forClassName(string $class): DocBlock
     {
@@ -59,7 +61,7 @@ final class Registry
             throw new ReflectionException(
                 $e->getMessage(),
                 $e->getCode(),
-                $e,
+                $e
             );
         }
         // @codeCoverageIgnoreEnd
@@ -68,10 +70,9 @@ final class Registry
     }
 
     /**
-     * @psalm-param class-string $classInHierarchy
-     *
-     * @throws AnnotationsAreNotSupportedForInternalClassesException
      * @throws ReflectionException
+     *
+     * @psalm-param class-string $classInHierarchy
      */
     public function forMethod(string $classInHierarchy, string $method): DocBlock
     {
@@ -86,7 +87,7 @@ final class Registry
             throw new ReflectionException(
                 $e->getMessage(),
                 $e->getCode(),
-                $e,
+                $e
             );
         }
         // @codeCoverageIgnoreEnd

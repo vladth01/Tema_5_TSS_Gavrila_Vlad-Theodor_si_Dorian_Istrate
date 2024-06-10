@@ -17,9 +17,9 @@ use PHPUnit\Event\Telemetry;
  *
  * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
  */
-final readonly class ExecutionFinished implements Event
+final class ExecutionFinished implements Event
 {
-    private Telemetry\Info $telemetryInfo;
+    private readonly Telemetry\Info $telemetryInfo;
 
     public function __construct(Telemetry\Info $telemetryInfo)
     {

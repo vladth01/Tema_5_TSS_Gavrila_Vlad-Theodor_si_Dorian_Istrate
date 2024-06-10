@@ -16,9 +16,9 @@ use PHPUnit\TextUI\Configuration\TestSuiteCollection;
 /**
  * @internal This class is not covered by the backward compatibility promise for PHPUnit
  */
-final readonly class ListTestSuitesCommand implements Command
+final class ListTestSuitesCommand implements Command
 {
-    private TestSuiteCollection $suites;
+    private readonly TestSuiteCollection $suites;
 
     public function __construct(TestSuiteCollection $suites)
     {
@@ -33,7 +33,7 @@ final readonly class ListTestSuitesCommand implements Command
         foreach ($this->suites as $suite) {
             $buffer .= sprintf(
                 ' - %s' . PHP_EOL,
-                $suite->name(),
+                $suite->name()
             );
         }
 

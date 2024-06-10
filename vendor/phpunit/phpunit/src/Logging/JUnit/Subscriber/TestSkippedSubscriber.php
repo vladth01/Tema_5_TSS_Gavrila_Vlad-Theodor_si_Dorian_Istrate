@@ -12,14 +12,16 @@ namespace PHPUnit\Logging\JUnit;
 use PHPUnit\Event\InvalidArgumentException;
 use PHPUnit\Event\Test\Skipped;
 use PHPUnit\Event\Test\SkippedSubscriber;
+use PHPUnit\Event\TestData\NoDataSetFromDataProviderException;
 
 /**
  * @internal This class is not covered by the backward compatibility promise for PHPUnit
  */
-final readonly class TestSkippedSubscriber extends Subscriber implements SkippedSubscriber
+final class TestSkippedSubscriber extends Subscriber implements SkippedSubscriber
 {
     /**
      * @throws InvalidArgumentException
+     * @throws NoDataSetFromDataProviderException
      */
     public function notify(Skipped $event): void
     {

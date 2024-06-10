@@ -10,8 +10,9 @@
 namespace PHPUnit\TextUI\Command;
 
 use function file_put_contents;
-use function ksort;
+use function implode;
 use function sprintf;
+use function str_replace;
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\TestSuite;
 use PHPUnit\Runner\PhptTestCase;
@@ -22,10 +23,10 @@ use XMLWriter;
 /**
  * @internal This class is not covered by the backward compatibility promise for PHPUnit
  */
-final readonly class ListTestsAsXmlCommand implements Command
+final class ListTestsAsXmlCommand implements Command
 {
-    private string $filename;
-    private TestSuite $suite;
+    private readonly string $filename;
+    private readonly TestSuite $suite;
 
     public function __construct(string $filename, TestSuite $suite)
     {
@@ -41,89 +42,63 @@ final readonly class ListTestsAsXmlCommand implements Command
         $writer->openMemory();
         $writer->setIndent(true);
         $writer->startDocument();
-
-        $writer->startElement('testSuite');
-        $writer->writeAttribute('xmlns', 'https://xml.phpunit.de/testSuite');
-
         $writer->startElement('tests');
 
-        $currentTestClass = null;
-        $groups           = [];
+        $currentTestCase = null;
 
         foreach (new RecursiveIteratorIterator($this->suite) as $test) {
             if ($test instanceof TestCase) {
-                foreach ($test->groups() as $group) {
-                    if (!isset($groups[$group])) {
-                        $groups[$group] = [];
-                    }
-
-                    $groups[$group][] = $test->valueObjectForEvents()->id();
-                }
-
-                if ($test::class !== $currentTestClass) {
-                    if ($currentTestClass !== null) {
+                if ($test::class !== $currentTestCase) {
+                    if ($currentTestCase !== null) {
                         $writer->endElement();
                     }
 
-                    $writer->startElement('testClass');
+                    $writer->startElement('testCaseClass');
                     $writer->writeAttribute('name', $test::class);
-                    $writer->writeAttribute('file', $test->valueObjectForEvents()->file());
 
-                    $currentTestClass = $test::class;
+                    $currentTestCase = $test::class;
                 }
 
-                $writer->startElement('testMethod');
-                $writer->writeAttribute('id', $test->valueObjectForEvents()->id());
-                $writer->writeAttribute('name', $test->valueObjectForEvents()->methodName());
+                $writer->startElement('testCaseMethod');
+                $writer->writeAttribute('name', $test->name());
+                $writer->writeAttribute('groups', implode(',', $test->groups()));
+
+                if (!empty($test->dataSetAsString())) {
+                    $writer->writeAttribute(
+                        'dataSet',
+                        str_replace(
+                            ' with data set ',
+                            '',
+                            $test->dataSetAsString()
+                        )
+                    );
+                }
+
                 $writer->endElement();
-
-                continue;
-            }
-
-            if ($test instanceof PhptTestCase) {
-                if ($currentTestClass !== null) {
+            } elseif ($test instanceof PhptTestCase) {
+                if ($currentTestCase !== null) {
                     $writer->endElement();
 
-                    $currentTestClass = null;
+                    $currentTestCase = null;
                 }
 
-                $writer->startElement('phpt');
-                $writer->writeAttribute('file', $test->getName());
+                $writer->startElement('phptFile');
+                $writer->writeAttribute('path', $test->getName());
                 $writer->endElement();
             }
         }
 
-        if ($currentTestClass !== null) {
+        if ($currentTestCase !== null) {
             $writer->endElement();
         }
 
-        $writer->endElement();
-
-        ksort($groups);
-
-        $writer->startElement('groups');
-
-        foreach ($groups as $groupName => $testIds) {
-            $writer->startElement('group');
-            $writer->writeAttribute('name', $groupName);
-
-            foreach ($testIds as $testId) {
-                $writer->startElement('test');
-                $writer->writeAttribute('id', $testId);
-                $writer->endElement();
-            }
-
-            $writer->endElement();
-        }
-
-        $writer->endElement();
         $writer->endElement();
 
         file_put_contents($this->filename, $writer->outputMemory());
 
         $buffer .= sprintf(
             'Wrote list of tests that would have been run to %s' . PHP_EOL,
-            $this->filename,
+            $this->filename
         );
 
         return Result::from($buffer);

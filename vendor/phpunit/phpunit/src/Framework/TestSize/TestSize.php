@@ -14,7 +14,7 @@ namespace PHPUnit\Framework\TestSize;
  *
  * @psalm-immutable
  */
-abstract readonly class TestSize
+abstract class TestSize
 {
     public static function unknown(): self
     {

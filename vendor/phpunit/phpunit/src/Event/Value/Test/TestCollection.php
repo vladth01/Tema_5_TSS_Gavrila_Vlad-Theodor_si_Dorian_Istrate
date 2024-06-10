@@ -20,12 +20,12 @@ use IteratorAggregate;
  *
  * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
  */
-final readonly class TestCollection implements Countable, IteratorAggregate
+final class TestCollection implements Countable, IteratorAggregate
 {
     /**
      * @psalm-var list<Test>
      */
-    private array $tests;
+    private readonly array $tests;
 
     /**
      * @psalm-param list<Test> $tests
