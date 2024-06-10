@@ -35,7 +35,7 @@ class DeleteTest extends TestCase
         mysqli_query($this->conn, $insertSql);
 
         // Delete the test note
-        $id = 1;
+        $id = 1; 
         $delSql = "DELETE FROM `notes` WHERE `notes`.`sn` = $id";
         $result = mysqli_query($this->conn, $delSql);
 
